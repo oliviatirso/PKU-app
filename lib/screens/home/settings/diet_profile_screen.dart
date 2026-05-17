@@ -39,12 +39,17 @@ class _DietProfileScreenState extends State<DietProfileScreen> {
   bool _breastfeeding = false;
 
   // Dropdown Options
-  final List<String> _genders = ['Male', 'Female', 'Other', 'Prefer not to say'];
+  final List<String> _genders = [
+    'Male',
+    'Female',
+    'Other',
+    'Prefer not to say',
+  ];
   final List<String> _severities = [
     'Classic PKU',
     'Moderate PKU',
     'Mild PKU',
-    'Hyperphenylalaninemia (HPA)'
+    'Hyperphenylalaninemia (HPA)',
   ];
   final List<String> _dietTypes = [
     'Infant: Breast milk + PKU Formula',
@@ -95,7 +100,11 @@ class _DietProfileScreenState extends State<DietProfileScreen> {
   Future<void> _loadProfileData() async {
     try {
       final userId = _supabase.auth.currentUser!.id;
-      final data = await _supabase.from('profiles').select().eq('id', userId).single();
+      final data = await _supabase
+          .from('profiles')
+          .select()
+          .eq('id', userId)
+          .single();
 
       if (mounted) {
         setState(() {
@@ -111,7 +120,9 @@ class _DietProfileScreenState extends State<DietProfileScreen> {
 
           if (data['dob'] != null) {
             _selectedDob = DateTime.parse(data['dob']);
-            _dobController.text = DateFormat('yyyy-MM-dd').format(_selectedDob!);
+            _dobController.text = DateFormat(
+              'yyyy-MM-dd',
+            ).format(_selectedDob!);
           }
           _heightController.text = data['height_cm']?.toString() ?? '';
           _weightController.text = data['weight_kg']?.toString() ?? '';
@@ -121,23 +132,30 @@ class _DietProfileScreenState extends State<DietProfileScreen> {
           // Dietary Goals
           _pheController.text = data['phe_tolerance_mg']?.toString() ?? '';
           _proteinController.text = data['protein_goal_g']?.toString() ?? '';
-          _calorieController.text = data['daily_calorie_target']?.toString() ?? '';
-          
+          _calorieController.text =
+              data['daily_calorie_target']?.toString() ?? '';
+
           // Preferences
-          _allergiesController.text = (data['allergies'] as List<dynamic>?)?.join(', ') ?? '';
-          _dislikesController.text = (data['disliked_ingredients'] as List<dynamic>?)?.join(', ') ?? '';
+          _allergiesController.text =
+              (data['allergies'] as List<dynamic>?)?.join(', ') ?? '';
+          _dislikesController.text =
+              (data['disliked_ingredients'] as List<dynamic>?)?.join(', ') ??
+              '';
           _dietType = data['diet_type'];
           _activity = data['activity_level'] ?? 'Sedentary';
           _pregnant = data['pregnancy_status'] ?? false;
           _breastfeeding = data['breastfeeding'] ?? false;
-          
+
           _isLoading = false;
         });
       }
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error loading profile: $e'), backgroundColor: Colors.red),
+          SnackBar(
+            content: Text('Error loading profile: $e'),
+            backgroundColor: Colors.red,
+          ),
         );
         setState(() => _isLoading = false);
       }
@@ -152,7 +170,9 @@ class _DietProfileScreenState extends State<DietProfileScreen> {
 
     try {
       final userId = _supabase.auth.currentUser!.id;
-      final fullName = '${_firstNameController.text.trim()} ${_lastNameController.text.trim()}'.trim();
+      final fullName =
+          '${_firstNameController.text.trim()} ${_lastNameController.text.trim()}'
+              .trim();
 
       final updates = {
         'name': fullName,
@@ -166,8 +186,16 @@ class _DietProfileScreenState extends State<DietProfileScreen> {
         'daily_calorie_target': double.tryParse(_calorieController.text),
         'diet_type': _dietType,
         'activity_level': _activity,
-        'allergies': _allergiesController.text.split(',').map((e) => e.trim()).where((e) => e.isNotEmpty).toList(),
-        'disliked_ingredients': _dislikesController.text.split(',').map((e) => e.trim()).where((e) => e.isNotEmpty).toList(),
+        'allergies': _allergiesController.text
+            .split(',')
+            .map((e) => e.trim())
+            .where((e) => e.isNotEmpty)
+            .toList(),
+        'disliked_ingredients': _dislikesController.text
+            .split(',')
+            .map((e) => e.trim())
+            .where((e) => e.isNotEmpty)
+            .toList(),
         'pregnancy_status': _pregnant,
         'breastfeeding': _breastfeeding,
       };
@@ -176,14 +204,20 @@ class _DietProfileScreenState extends State<DietProfileScreen> {
 
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Profile updated successfully!'), backgroundColor: Colors.green),
+          const SnackBar(
+            content: Text('Profile updated successfully!'),
+            backgroundColor: Colors.green,
+          ),
         );
         Navigator.of(context).pop();
       }
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error saving profile: $e'), backgroundColor: Colors.red),
+          SnackBar(
+            content: Text('Error saving profile: $e'),
+            backgroundColor: Colors.red,
+          ),
         );
       }
     } finally {
@@ -202,7 +236,11 @@ class _DietProfileScreenState extends State<DietProfileScreen> {
           IconButton(
             onPressed: _isSaving ? null : _saveProfile,
             icon: _isSaving
-                ? const SizedBox(width: 20, height: 20, child: CircularProgressIndicator())
+                ? const SizedBox(
+                    width: 20,
+                    height: 20,
+                    child: CircularProgressIndicator(),
+                  )
                 : const Icon(Icons.save),
           ),
         ],
@@ -216,7 +254,10 @@ class _DietProfileScreenState extends State<DietProfileScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('Personal Information', style: Theme.of(context).textTheme.titleLarge),
+                    Text(
+                      'Personal Information',
+                      style: Theme.of(context).textTheme.titleLarge,
+                    ),
                     const SizedBox(height: 16),
                     // --- ROW 1: NAMES ---
                     Row(
@@ -224,21 +265,26 @@ class _DietProfileScreenState extends State<DietProfileScreen> {
                         Expanded(
                           child: TextFormField(
                             controller: _firstNameController,
-                            decoration: const InputDecoration(labelText: 'First Name'),
-                            validator: (val) => val == null || val.isEmpty ? 'Required' : null,
+                            decoration: const InputDecoration(
+                              labelText: 'First Name',
+                            ),
+                            validator: (val) =>
+                                val == null || val.isEmpty ? 'Required' : null,
                           ),
                         ),
                         const SizedBox(width: 16),
                         Expanded(
                           child: TextFormField(
                             controller: _lastNameController,
-                            decoration: const InputDecoration(labelText: 'Last Name'),
+                            decoration: const InputDecoration(
+                              labelText: 'Last Name',
+                            ),
                           ),
                         ),
                       ],
                     ),
                     const SizedBox(height: 16),
-                    
+
                     // --- ROW 2: DOB ---
                     TextFormField(
                       controller: _dobController,
@@ -257,16 +303,24 @@ class _DietProfileScreenState extends State<DietProfileScreen> {
                         Expanded(
                           child: TextFormField(
                             controller: _heightController,
-                            keyboardType: const TextInputType.numberWithOptions(decimal: true),
-                            decoration: const InputDecoration(labelText: 'Height (cm)'),
+                            keyboardType: const TextInputType.numberWithOptions(
+                              decimal: true,
+                            ),
+                            decoration: const InputDecoration(
+                              labelText: 'Height (cm)',
+                            ),
                           ),
                         ),
                         const SizedBox(width: 16),
                         Expanded(
                           child: TextFormField(
                             controller: _weightController,
-                            keyboardType: const TextInputType.numberWithOptions(decimal: true),
-                            decoration: const InputDecoration(labelText: 'Weight (kg)'),
+                            keyboardType: const TextInputType.numberWithOptions(
+                              decimal: true,
+                            ),
+                            decoration: const InputDecoration(
+                              labelText: 'Weight (kg)',
+                            ),
                           ),
                         ),
                       ],
@@ -275,31 +329,51 @@ class _DietProfileScreenState extends State<DietProfileScreen> {
 
                     // --- ROW 4: GENDER (Full width to be safe) ---
                     DropdownButtonFormField<String>(
-                      value: _gender,
+                      initialValue: _gender,
                       decoration: const InputDecoration(labelText: 'Gender'),
-                      items: _genders.map((g) => DropdownMenuItem(value: g, child: Text(g))).toList(),
+                      items: _genders
+                          .map(
+                            (g) => DropdownMenuItem(value: g, child: Text(g)),
+                          )
+                          .toList(),
                       onChanged: (val) => setState(() => _gender = val),
                     ),
                     const SizedBox(height: 16),
 
                     // --- ROW 5: SEVERITY (Full width required for long text) ---
                     DropdownButtonFormField<String>(
-                      value: _pkuSeverity,
+                      initialValue: _pkuSeverity,
                       isExpanded: true,
-                      decoration: const InputDecoration(labelText: 'PKU Severity'),
-                      items: _severities.map((s) => DropdownMenuItem(value: s, child: Text(s, overflow: TextOverflow.ellipsis))).toList(),
+                      decoration: const InputDecoration(
+                        labelText: 'PKU Severity',
+                      ),
+                      items: _severities
+                          .map(
+                            (s) => DropdownMenuItem(
+                              value: s,
+                              child: Text(s, overflow: TextOverflow.ellipsis),
+                            ),
+                          )
+                          .toList(),
                       onChanged: (val) => setState(() => _pkuSeverity = val),
                     ),
 
                     const Divider(height: 48),
 
                     // --- DIETARY GOALS ---
-                    Text('Dietary Goals', style: Theme.of(context).textTheme.titleLarge),
+                    Text(
+                      'Dietary Goals',
+                      style: Theme.of(context).textTheme.titleLarge,
+                    ),
                     const SizedBox(height: 16),
                     TextFormField(
                       controller: _pheController,
-                      keyboardType: const TextInputType.numberWithOptions(decimal: true),
-                      decoration: const InputDecoration(labelText: 'Daily PHE Tolerance (mg)'),
+                      keyboardType: const TextInputType.numberWithOptions(
+                        decimal: true,
+                      ),
+                      decoration: const InputDecoration(
+                        labelText: 'Daily PHE Tolerance (mg)',
+                      ),
                     ),
                     const SizedBox(height: 16),
                     Row(
@@ -307,16 +381,24 @@ class _DietProfileScreenState extends State<DietProfileScreen> {
                         Expanded(
                           child: TextFormField(
                             controller: _proteinController,
-                            keyboardType: const TextInputType.numberWithOptions(decimal: true),
-                            decoration: const InputDecoration(labelText: 'Protein Goal (g)'),
+                            keyboardType: const TextInputType.numberWithOptions(
+                              decimal: true,
+                            ),
+                            decoration: const InputDecoration(
+                              labelText: 'Protein Goal (g)',
+                            ),
                           ),
                         ),
                         const SizedBox(width: 16),
                         Expanded(
                           child: TextFormField(
                             controller: _calorieController,
-                            keyboardType: const TextInputType.numberWithOptions(decimal: true),
-                            decoration: const InputDecoration(labelText: 'Calorie Goal (kcal)'),
+                            keyboardType: const TextInputType.numberWithOptions(
+                              decimal: true,
+                            ),
+                            decoration: const InputDecoration(
+                              labelText: 'Calorie Goal (kcal)',
+                            ),
                           ),
                         ),
                       ],
@@ -325,38 +407,66 @@ class _DietProfileScreenState extends State<DietProfileScreen> {
                     const Divider(height: 48),
 
                     // --- DIET DETAILS ---
-                    Text('Diet Details', style: Theme.of(context).textTheme.titleLarge),
+                    Text(
+                      'Diet Details',
+                      style: Theme.of(context).textTheme.titleLarge,
+                    ),
                     const SizedBox(height: 16),
                     DropdownButtonFormField<String>(
-                      value: _dietType,
+                      initialValue: _dietType,
                       decoration: const InputDecoration(labelText: 'Diet Type'),
                       isExpanded: true,
-                      items: _dietTypes.map((s) => DropdownMenuItem(value: s, child: Text(s, overflow: TextOverflow.ellipsis))).toList(),
+                      items: _dietTypes
+                          .map(
+                            (s) => DropdownMenuItem(
+                              value: s,
+                              child: Text(s, overflow: TextOverflow.ellipsis),
+                            ),
+                          )
+                          .toList(),
                       onChanged: (value) => setState(() => _dietType = value!),
                     ),
                     const SizedBox(height: 16),
                     DropdownButtonFormField<String>(
-                      value: _activity,
-                      decoration: const InputDecoration(labelText: 'Activity Level'),
-                      items: ['Sedentary', 'Lightly Active', 'Moderately Active', 'Very Active']
-                          .map((a) => DropdownMenuItem(value: a, child: Text(a)))
-                          .toList(),
+                      initialValue: _activity,
+                      decoration: const InputDecoration(
+                        labelText: 'Activity Level',
+                      ),
+                      items:
+                          [
+                                'Sedentary',
+                                'Lightly Active',
+                                'Moderately Active',
+                                'Very Active',
+                              ]
+                              .map(
+                                (a) =>
+                                    DropdownMenuItem(value: a, child: Text(a)),
+                              )
+                              .toList(),
                       onChanged: (value) => setState(() => _activity = value!),
                     ),
 
                     const Divider(height: 48),
 
                     // --- PREFERENCES ---
-                    Text('Preferences & Status', style: Theme.of(context).textTheme.titleLarge),
+                    Text(
+                      'Preferences & Status',
+                      style: Theme.of(context).textTheme.titleLarge,
+                    ),
                     const SizedBox(height: 16),
                     TextFormField(
                       controller: _allergiesController,
-                      decoration: const InputDecoration(labelText: 'Allergies (comma-separated)'),
+                      decoration: const InputDecoration(
+                        labelText: 'Allergies (comma-separated)',
+                      ),
                     ),
                     const SizedBox(height: 16),
                     TextFormField(
                       controller: _dislikesController,
-                      decoration: const InputDecoration(labelText: 'Disliked Ingredients (comma-separated)'),
+                      decoration: const InputDecoration(
+                        labelText: 'Disliked Ingredients (comma-separated)',
+                      ),
                     ),
                     const SizedBox(height: 16),
                     SwitchListTile(

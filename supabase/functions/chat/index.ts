@@ -50,22 +50,35 @@ function calcNeedOfPhe(ageMonths: number, currentBloodPheMgdl: number | null) {
   return { min: phe1, max: phe2, target: targetPhe, thresholdMgdl: goldenThreshold };
 }
 
-function calcNeedOfProtein(weightKg: number, ageMonths: number): number {
-    if (ageMonths < 6) return 3.5 * weightKg;
+function calcNeedOfProtein(weightKg: number, ageMonths: number, gender: string = 'male'): number {
+    const ageYears = ageMonths / 12;
+    const isMale = gender.toLowerCase().includes('male');
+    // Weight-based for infants/toddlers (0–4yr)
+    if (ageMonths < 6)  return 3.5 * weightKg;
     if (ageMonths < 12) return 3.0 * weightKg;
     if (ageMonths < 48) return 2.5 * weightKg;
-    if (ageMonths < 120) return 2.0 * weightKg;
-    if (ageMonths < 228) return 1.5 * weightKg;
-    return 1.0 * weightKg;
+    // Fixed lookup by age + gender for 4yr+
+    if (ageYears < 7)  return 35;
+    if (ageYears < 11) return 40;
+    if (ageYears < 16) return isMale ? 55 : 50;
+    if (ageYears < 19) return isMale ? 65 : 55;
+    return isMale ? 70 : 60;
 }
 
-function calcNeedOfCals(weightKg: number, ageMonths: number): number {
-    if (ageMonths < 3) return 120 * weightKg;
-    if (ageMonths < 6) return 115 * weightKg;
+function calcNeedOfCals(weightKg: number, ageMonths: number, gender: string = 'male'): number {
+    const ageYears = ageMonths / 12;
+    const isMale = gender.toLowerCase().includes('male');
+    // Weight-based for infants/toddlers (0–4yr)
+    if (ageMonths < 3)  return 120 * weightKg;
+    if (ageMonths < 6)  return 115 * weightKg;
     if (ageMonths < 12) return 105 * weightKg;
-    if (ageMonths < 36) return 95 * weightKg;
-    if (ageMonths < 120) return 75 * weightKg;
-    return 40 * weightKg;
+    if (ageMonths < 48) return 95  * weightKg;
+    // Fixed lookup by age + gender for 4yr+
+    if (ageYears < 7)  return 1700;
+    if (ageYears < 11) return 2400;
+    if (ageYears < 16) return isMale ? 2700 : 2200;
+    if (ageYears < 19) return isMale ? 2800 : 2100;
+    return isMale ? 2900 : 2100;
 }
 
 function calculateFeedingSchedule(totalDailyMl: number, ageMonths: number) {
@@ -150,8 +163,9 @@ Deno.serve(async (req) => {
   if (weight && dob) {
       const ageMonths = calculateAgeInMonths(dob);
       const pheNeeds = calcNeedOfPhe(ageMonths, currentBloodPheMgdl);
-      const proteinNeed = calcNeedOfProtein(weight, ageMonths);
-      const calNeed = calcNeedOfCals(weight, ageMonths);
+      const gender = profile?.gender ?? 'male';
+      const proteinNeed = calcNeedOfProtein(weight, ageMonths, gender);
+      const calNeed = calcNeedOfCals(weight, ageMonths, gender);
       
       let infantFeedingGuide = "";
       const isWeaningAge = ageMonths >= 4; 
@@ -160,7 +174,7 @@ Deno.serve(async (req) => {
           const dailyFluid = weight * 150;
           const schedule = calculateFeedingSchedule(dailyFluid, ageMonths);
           const oneBottleMix = calculateMixingInstructions(schedule.mlPerFeed);
-          
+
           infantFeedingGuide = `
     [INFANT FEEDING GUIDE]
     Fluid Need: ${dailyFluid.toFixed(0)} mL/day
@@ -170,13 +184,18 @@ Deno.serve(async (req) => {
           `;
       }
 
+      // For infants, PHE allowance is weight-based (matches clinical calculation protocol)
+      const effectiveWeight = Math.max(weight, 3.4);
+      const infantPhePerKg = ageMonths < 3 ? 70 : 45;
+      const infantDailyPhe = ageMonths < 12 ? infantPhePerKg * effectiveWeight : null;
+
       calculatedNeeds = `
     [CLINICAL TARGETS (AUTO-CALCULATED)]
     Patient Age: ${ageMonths.toFixed(1)} months
-    Patient Weight: ${weight} kg
+    Patient Weight: ${weight} kg  |  Effective Weight: ${effectiveWeight.toFixed(1)} kg
     Daily Protein Need: ${proteinNeed.toFixed(1)} g (PKU-adjusted)
     Daily Energy Need: ${calNeed.toFixed(0)} kcal
-    Daily PHE Target Intake: ${pheNeeds.target.toFixed(0)} mg/day (Range: ${pheNeeds.min}-${pheNeeds.max})
+    Daily PHE Target Intake: ${infantDailyPhe !== null ? `${infantDailyPhe.toFixed(0)} mg/day (${infantPhePerKg} mg/kg × ${effectiveWeight.toFixed(1)} kg)` : `${pheNeeds.target.toFixed(0)} mg/day (Range: ${pheNeeds.min}-${pheNeeds.max})`}
     ${infantFeedingGuide}
       `;
   } else {
@@ -225,7 +244,7 @@ Deno.serve(async (req) => {
        - **Phase 1 (0-48 hrs):** STOP intact protein. 100% of fluid needs via Phe-free medical formula.
          * Provide 'Standard Formula Mix' (powder/water ratio) for a single full bottle.
        - **Phase 2 (48hr+):** Reintroduce breast milk.
-         * Breast Milk Vol = ([Daily PHE Target Intake] / 46mg) * 100
+         * Breast Milk Vol = ([Daily PHE Target Intake] / 48mg) * 100  ← use 48mg/100mL (density-adjusted)
          * Medical Formula Vol = [Fluid Need] - [Breast Milk Vol]
          * **CRITICAL:** State these are DAILY TOTALS and provide the exact mixing instructions for that small daily total (Vol * 0.15 = g powder).
 
@@ -264,6 +283,49 @@ Deno.serve(async (req) => {
     7. **VAGUE HUNGER (e.g., "I'm hungry", "What snack can I have?"):**
        - **ACTION:** Respond by suggesting a specific food from the 'VERIFIED DATABASE CONTEXT' that contains the text "Free Food" in its description.
        - **EXAMPLE:** "A great, safe snack is an Apple. It's a Free Food, so you can eat it without tracking. Would you like to log one?"
+
+    --- CALCULATION RULES (CRITICAL) ---
+    * The "Stated PHE Tolerance" in [USER MEDICAL CHART] is a historical reference value only — do NOT use it for calculations.
+
+    PROTEIN TARGETS (PKU clinical guidelines):
+      Age  0–6 months:   3.5 g/kg × weight
+      Age  6–12 months:  3.0 g/kg × weight
+      Age 12–48 months:  2.5 g/kg × weight
+      Age  4–6yr:  35 g/day (both genders)
+      Age  7–10yr: 40 g/day (both genders)
+      Age 11–15yr: Male = 55 g/day | Female = 50 g/day
+      Age 16–18yr: Male = 65 g/day | Female = 55 g/day
+      Age ≥ 19yr:  Male = 70 g/day | Female = 60 g/day
+
+    CALORIE TARGETS (PKU clinical guidelines):
+      Age  0–3 months:   120 kcal/kg × weight
+      Age  3–6 months:   115 kcal/kg × weight
+      Age  6–12 months:  105 kcal/kg × weight
+      Age 12–48 months:   95 kcal/kg × weight
+      Age  4–6yr:  1700 kcal/day (both genders)
+      Age  7–10yr: 2400 kcal/day (both genders)
+      Age 11–15yr: Male = 2700 | Female = 2200 kcal/day
+      Age 16–18yr: Male = 2800 | Female = 2100 kcal/day
+      Age ≥ 19yr:  Male = 2900 | Female = 2100 kcal/day
+
+    INFANT MILK CALCULATIONS (age < 12 months) — follow in order:
+    1. Effective weight = max(patient weight, 3.4 kg)
+    2. Phe per kg:  age < 3 months → 70 mg/kg/day;  age ≥ 3 months → 45 mg/kg/day
+    3. Daily Phe from milk = Phe per kg × effective weight
+    4. Milk concentrations per 100 mL:
+         Breast milk:              48 mg Phe | 1.07 g protein | 72 kcal
+         Standard formula (Similac/Aptamil): 59 mg Phe | 1.4 g protein  | 68 kcal
+    5. Milk volume (mL) = (Daily Phe from milk ÷ Phe per 100 mL) × 100
+    6. From-milk Phe (mg) = round(milk volume × Phe per 100 mL ÷ 100)
+    7. Milk protein (g)   = milk volume × protein per 100 mL ÷ 100
+    8. Protein target (g) = from PROTEIN TARGETS table above
+    9. Medical protein gap (g) = max(0, protein target − milk protein)
+    10. Formula powder (g) = protein gap ÷ 0.15  (Phe-free formula, e.g. Phenex-1)
+    11. Formula calories (kcal) = formula powder × 4.8
+    12. Total calories (kcal) = round((milk volume × kcal per 100 mL ÷ 100) + formula calories)
+
+    OLDER CHILDREN / ADULTS — use "Daily PHE Target Intake" from [CLINICAL TARGETS] for meal planning.
+    -------------------------------------
 
     --- USER MEDICAL CHART ---
     ${userDetails}

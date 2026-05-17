@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 // Make sure to create and import the new screen we designed
-import 'package:pkuapp/screens/home/phecalculator/infant_calculator_screen.dart'; 
+import 'package:pkuapp/screens/home/phecalculator/infant_calculator_screen.dart';
 import 'package:pkuapp/utils/food_service.dart';
 import 'package:pkuapp/models/food_item.dart';
 
@@ -18,7 +18,7 @@ class _PheCalculatorScreenState extends State<PheCalculatorScreen> {
   final TextEditingController _searchController = TextEditingController();
 
   List<FoodItem> _searchResults = [];
-  List<Map<String, dynamic>> _mealItems = [];
+  final List<Map<String, dynamic>> _mealItems = [];
   bool _isLoading = false;
 
   double _totalPhe = 0;
@@ -46,7 +46,7 @@ class _PheCalculatorScreenState extends State<PheCalculatorScreen> {
     setState(() {
       _searchResults = [];
     });
-    
+
     showDialog(
       context: context,
       builder: (context) {
@@ -60,7 +60,10 @@ class _PheCalculatorScreenState extends State<PheCalculatorScreen> {
             autofocus: true,
           ),
           actions: [
-            TextButton(onPressed: () => Navigator.pop(context), child: const Text('Cancel')),
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: const Text('Cancel'),
+            ),
             TextButton(
               onPressed: () {
                 final weight = double.tryParse(weightController.text);
@@ -95,13 +98,10 @@ class _PheCalculatorScreenState extends State<PheCalculatorScreen> {
     });
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Meal Calculator'),
-      ),
+      appBar: AppBar(title: const Text('Meal Calculator')),
       body: Column(
         children: [
           // --- ADD THIS NEW WIDGET HERE ---
@@ -121,8 +121,8 @@ class _PheCalculatorScreenState extends State<PheCalculatorScreen> {
               ),
             ),
           ),
-          // --- END OF NEW WIDGET ---
 
+          // --- END OF NEW WIDGET ---
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: TextField(
@@ -130,14 +130,22 @@ class _PheCalculatorScreenState extends State<PheCalculatorScreen> {
               onChanged: _onSearchChanged,
               decoration: InputDecoration(
                 labelText: 'Search for a food...',
-                suffixIcon: _isLoading ? const Padding(padding: EdgeInsets.all(10.0), child: CircularProgressIndicator()) : const Icon(Icons.search),
-                border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+                suffixIcon: _isLoading
+                    ? const Padding(
+                        padding: EdgeInsets.all(10.0),
+                        child: CircularProgressIndicator(),
+                      )
+                    : const Icon(Icons.search),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
               ),
             ),
           ),
-          
+
           Expanded(
-            child: _searchController.text.isNotEmpty && _searchResults.isNotEmpty
+            child:
+                _searchController.text.isNotEmpty && _searchResults.isNotEmpty
                 ? _buildSearchResults()
                 : _buildMealList(),
           ),
@@ -149,7 +157,7 @@ class _PheCalculatorScreenState extends State<PheCalculatorScreen> {
   }
 
   // ... (all your existing build methods like _buildSearchResults, _buildMealList, etc. remain here without change) ...
-  
+
   Widget _buildSearchResults() {
     return ListView.builder(
       itemCount: _searchResults.length,
@@ -199,8 +207,12 @@ class _PheCalculatorScreenState extends State<PheCalculatorScreen> {
       decoration: BoxDecoration(
         color: Theme.of(context).cardColor,
         boxShadow: [
-          BoxShadow(color: Colors.black.withOpacity(0.1), blurRadius: 4, offset: const Offset(0, -2))
-        ]
+          BoxShadow(
+            color: Colors.black.withOpacity(0.1),
+            blurRadius: 4,
+            offset: const Offset(0, -2),
+          ),
+        ],
       ),
       child: SafeArea(
         top: false,
@@ -209,14 +221,26 @@ class _PheCalculatorScreenState extends State<PheCalculatorScreen> {
           children: [
             Column(
               children: [
-                const Text('Total Phe', style: TextStyle(fontWeight: FontWeight.bold)),
-                Text('${_totalPhe.toStringAsFixed(0)} mg', style: const TextStyle(fontSize: 18, color: Colors.redAccent)),
+                const Text(
+                  'Total Phe',
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+                Text(
+                  '${_totalPhe.toStringAsFixed(0)} mg',
+                  style: const TextStyle(fontSize: 18, color: Colors.redAccent),
+                ),
               ],
             ),
             Column(
               children: [
-                const Text('Total Protein', style: TextStyle(fontWeight: FontWeight.bold)),
-                Text('${_totalProtein.toStringAsFixed(1)} g', style: const TextStyle(fontSize: 18)),
+                const Text(
+                  'Total Protein',
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+                Text(
+                  '${_totalProtein.toStringAsFixed(1)} g',
+                  style: const TextStyle(fontSize: 18),
+                ),
               ],
             ),
           ],
@@ -224,5 +248,4 @@ class _PheCalculatorScreenState extends State<PheCalculatorScreen> {
       ),
     );
   }
-
 }

@@ -14,10 +14,11 @@ class LibraryScreen extends StatefulWidget {
   State<LibraryScreen> createState() => _LibraryScreenState();
 }
 
-class _LibraryScreenState extends State<LibraryScreen> with SingleTickerProviderStateMixin {
+class _LibraryScreenState extends State<LibraryScreen>
+    with SingleTickerProviderStateMixin {
   late TabController _tabController;
   final _searchController = TextEditingController();
-  
+
   final _foodService = FoodService();
   final _libraryService = LibraryService();
 
@@ -57,14 +58,18 @@ class _LibraryScreenState extends State<LibraryScreen> with SingleTickerProvider
 
       if (mounted) {
         setState(() {
-          _foodResults = response.map((item) => FoodItem.fromJson(item)).toList();
+          _foodResults = response
+              .map((item) => FoodItem.fromJson(item))
+              .toList();
           _isLoadingFoods = false;
         });
       }
     } catch (e) {
       if (mounted) {
         setState(() => _isLoadingFoods = false);
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Error loading foods: $e')));
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('Error loading foods: $e')));
       }
     }
   }
@@ -88,9 +93,9 @@ class _LibraryScreenState extends State<LibraryScreen> with SingleTickerProvider
     }
     if (query.length < 3) return;
 
-    if(mounted) setState(() => _isLoadingFoods = true);
+    if (mounted) setState(() => _isLoadingFoods = true);
     final results = await _foodService.searchFoods(query);
-    if(mounted) {
+    if (mounted) {
       setState(() {
         _foodResults = results;
         _isLoadingFoods = false;
@@ -161,10 +166,7 @@ class _LibraryScreenState extends State<LibraryScreen> with SingleTickerProvider
             ),
       body: TabBarView(
         controller: _tabController,
-        children: [
-          _buildSearchTab(),
-          _buildFavoritesTab(),
-        ],
+        children: [_buildSearchTab(), _buildFavoritesTab()],
       ),
       floatingActionButton: _isSelectionMode
           ? FloatingActionButton.extended(
@@ -188,7 +190,9 @@ class _LibraryScreenState extends State<LibraryScreen> with SingleTickerProvider
               hintText: 'Search foods...',
               prefixIcon: const Icon(Icons.search),
               filled: true,
-              fillColor: Theme.of(context).colorScheme.surfaceVariant.withAlpha(100),
+              fillColor: Theme.of(
+                context,
+              ).colorScheme.surfaceContainerHighest.withAlpha(100),
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(30),
                 borderSide: BorderSide.none,
@@ -203,7 +207,9 @@ class _LibraryScreenState extends State<LibraryScreen> with SingleTickerProvider
                   itemCount: _foodResults.length,
                   itemBuilder: (context, index) {
                     final food = _foodResults[index];
-                    final isFavorite = _favoriteFoods.any((fav) => fav.fdcId == food.fdcId);
+                    final isFavorite = _favoriteFoods.any(
+                      (fav) => fav.fdcId == food.fdcId,
+                    );
                     return _buildFoodItemCard(food, isFavorite);
                   },
                 ),
@@ -218,7 +224,10 @@ class _LibraryScreenState extends State<LibraryScreen> with SingleTickerProvider
     }
     if (_favoriteFoods.isEmpty) {
       return Center(
-        child: Text('You haven\'t saved any foods yet.', style: TextStyle(color: Colors.grey.shade600)),
+        child: Text(
+          'You haven\'t saved any foods yet.',
+          style: TextStyle(color: Colors.grey.shade600),
+        ),
       );
     }
     return RefreshIndicator(
@@ -251,11 +260,19 @@ class _LibraryScreenState extends State<LibraryScreen> with SingleTickerProvider
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(food.name, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+                    Text(
+                      food.name,
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                      ),
+                    ),
                     const SizedBox(height: 4),
                     Text(
                       '${food.proteinG.toStringAsFixed(1)}g Protein / 100g',
-                      style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.grey.shade700),
+                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                        color: Colors.grey.shade700,
+                      ),
                     ),
                   ],
                 ),
@@ -278,7 +295,10 @@ class _LibraryScreenState extends State<LibraryScreen> with SingleTickerProvider
               ),
               IconButton(
                 icon: isFavorite
-                    ? Icon(Icons.favorite, color: Theme.of(context).colorScheme.primary)
+                    ? Icon(
+                        Icons.favorite,
+                        color: Theme.of(context).colorScheme.primary,
+                      )
                     : const Icon(Icons.favorite_border),
                 tooltip: isFavorite ? 'Remove from Library' : 'Save to Library',
                 onPressed: () async {

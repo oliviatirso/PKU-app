@@ -16,7 +16,7 @@ class _InfantCalculatorScreenState extends State<InfantCalculatorScreen> {
   final _weightController = TextEditingController();
   final _pheLevelController = TextEditingController();
   DateTime? _dob;
-  bool _isBreastfeeding = true;
+  final bool _isBreastfeeding = true;
   List<String> _results = [];
   bool _isLoading = true;
 
@@ -39,7 +39,7 @@ class _InfantCalculatorScreenState extends State<InfantCalculatorScreen> {
         _isLoading = false;
       });
     } else {
-       setState(() => _isLoading = false);
+      setState(() => _isLoading = false);
     }
   }
 
@@ -49,7 +49,9 @@ class _InfantCalculatorScreenState extends State<InfantCalculatorScreen> {
     final pheLevel = double.tryParse(_pheLevelController.text);
 
     if (weight == null || weight <= 0 || pheLevel == null || _dob == null) {
-      setState(() => _results = ["Please ensure all fields are filled correctly."]);
+      setState(
+        () => _results = ["Please ensure all fields are filled correctly."],
+      );
       return;
     }
 
@@ -64,9 +66,19 @@ class _InfantCalculatorScreenState extends State<InfantCalculatorScreen> {
     // 2. Macronutrient and PHE ranges based on Swift logic
     final double e1, e2, p1, p2, phe1, phe2;
     if (ageMonths <= 3) {
-      e1 = 145; e2 = 95; p1 = 3.5; p2 = 3; phe1 = 25; phe2 = 70;
+      e1 = 145;
+      e2 = 95;
+      p1 = 3.5;
+      p2 = 3;
+      phe1 = 25;
+      phe2 = 70;
     } else {
-      e1 = 135; e2 = 80; p1 = 3; p2 = 2.5; phe1 = 35; phe2 = 10;
+      e1 = 135;
+      e2 = 80;
+      p1 = 3;
+      p2 = 2.5;
+      phe1 = 35;
+      phe2 = 10;
     }
     final needCalories = weight * ((e1 + e2) / 2.0);
     final needProtein = weight * ((p1 + p2) / 2.0);
@@ -77,21 +89,30 @@ class _InfantCalculatorScreenState extends State<InfantCalculatorScreen> {
 
     // 3. Wait time calculation
     final int hour;
-    if (pheLevel < 4) hour = 0;
-    else if (pheLevel < 10) hour = 24;
-    else if (pheLevel < 20) hour = 48;
-    else if (pheLevel < 40) hour = 72;
-    else hour = 96;
-    results.add("Recommendation: Wait $hour hours before the next Phe-containing meal.");
+    if (pheLevel < 4) {
+      hour = 0;
+    } else if (pheLevel < 10)
+      hour = 24;
+    else if (pheLevel < 20)
+      hour = 48;
+    else if (pheLevel < 40)
+      hour = 72;
+    else
+      hour = 96;
+    results.add(
+      "Recommendation: Wait $hour hours before the next Phe-containing meal.",
+    );
 
     setState(() => _results = results);
   }
 
-
   @override
   Widget build(BuildContext context) {
     if (_isLoading) {
-      return Scaffold(appBar: AppBar(), body: const Center(child: CircularProgressIndicator()));
+      return Scaffold(
+        appBar: AppBar(),
+        body: const Center(child: CircularProgressIndicator()),
+      );
     }
 
     return Scaffold(
@@ -100,13 +121,17 @@ class _InfantCalculatorScreenState extends State<InfantCalculatorScreen> {
         child: ListView(
           padding: const EdgeInsets.all(16.0),
           children: [
-            Text("This calculator uses your profile data to provide infant feeding guidance. You can adjust the values for a custom calculation.", 
-                 style: Theme.of(context).textTheme.bodySmall),
+            Text(
+              "This calculator uses your profile data to provide infant feeding guidance. You can adjust the values for a custom calculation.",
+              style: Theme.of(context).textTheme.bodySmall,
+            ),
             const SizedBox(height: 20),
-            
+
             TextFormField(
               controller: _weightController,
-              keyboardType: const TextInputType.numberWithOptions(decimal: true),
+              keyboardType: const TextInputType.numberWithOptions(
+                decimal: true,
+              ),
               decoration: const InputDecoration(labelText: 'Weight (kg)'),
             ),
             const SizedBox(height: 16),
@@ -114,7 +139,9 @@ class _InfantCalculatorScreenState extends State<InfantCalculatorScreen> {
             ListTile(
               contentPadding: EdgeInsets.zero,
               title: const Text("Date of Birth"),
-              subtitle: Text(_dob != null ? "${_dob!.toLocal()}".split(' ')[0] : 'Not Set'),
+              subtitle: Text(
+                _dob != null ? "${_dob!.toLocal()}".split(' ')[0] : 'Not Set',
+              ),
               onTap: () async {
                 final date = await showDatePicker(
                   context: context,
@@ -129,16 +156,20 @@ class _InfantCalculatorScreenState extends State<InfantCalculatorScreen> {
 
             TextFormField(
               controller: _pheLevelController,
-              keyboardType: const TextInputType.numberWithOptions(decimal: true),
-              decoration: const InputDecoration(labelText: 'Current Blood PHE Level (mg/dL)'),
+              keyboardType: const TextInputType.numberWithOptions(
+                decimal: true,
+              ),
+              decoration: const InputDecoration(
+                labelText: 'Current Blood PHE Level (mg/dL)',
+              ),
             ),
             const SizedBox(height: 24),
-            
+
             ElevatedButton(
               onPressed: _calculate,
               child: const Text('Calculate Recommendations'),
             ),
-            
+
             if (_results.isNotEmpty)
               Padding(
                 padding: const EdgeInsets.only(top: 24.0),
@@ -148,12 +179,20 @@ class _InfantCalculatorScreenState extends State<InfantCalculatorScreen> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text("Results", style: Theme.of(context).textTheme.headlineSmall),
+                        Text(
+                          "Results",
+                          style: Theme.of(context).textTheme.headlineSmall,
+                        ),
                         const SizedBox(height: 10),
-                        ..._results.map((line) => Padding(
-                          padding: const EdgeInsets.only(bottom: 8.0),
-                          child: Text(line, style: const TextStyle(fontSize: 16)),
-                        )),
+                        ..._results.map(
+                          (line) => Padding(
+                            padding: const EdgeInsets.only(bottom: 8.0),
+                            child: Text(
+                              line,
+                              style: const TextStyle(fontSize: 16),
+                            ),
+                          ),
+                        ),
                       ],
                     ),
                   ),

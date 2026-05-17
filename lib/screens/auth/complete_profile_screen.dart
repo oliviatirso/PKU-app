@@ -45,7 +45,8 @@ class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
   bool _pregnant = false;
   bool _breastfeeding = false;
   bool _visualAids = false;
-  bool _caregiverAccess = false; // This was missing from the form, added to Step 3
+  bool _caregiverAccess =
+      false; // This was missing from the form, added to Step 3
   bool _isSaving = false;
 
   final List<String> _dietTypes = [
@@ -84,16 +85,20 @@ class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
   // --- LOGIC METHODS ---
   void _updateCalorieTarget() {
     if (_weightController.text.isNotEmpty &&
-        (_heightController.text.isNotEmpty || _inchesController.text.isNotEmpty) &&
+        (_heightController.text.isNotEmpty ||
+            _inchesController.text.isNotEmpty) &&
         _diagnosisDate != null) {
-      final weight = ProfileUtils.convertToKg(_weightController.text, _imperial);
+      final weight = ProfileUtils.convertToKg(
+        _weightController.text,
+        _imperial,
+      );
       final height = ProfileUtils.convertToCm(
         _heightController.text,
         _imperial,
         inches: _inchesController.text,
       );
       final age = ProfileUtils.calculateAgeFromDate(_diagnosisDate!);
-      
+
       final bmr = ProfileUtils.calculateBMR(
         gender: _gender,
         weightKg: weight,
@@ -108,7 +113,11 @@ class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
   Future<void> _loadUserName() async {
     try {
       final userId = _supabase.auth.currentUser!.id;
-      final data = await _supabase.from('profiles').select('name').eq('id', userId).single();
+      final data = await _supabase
+          .from('profiles')
+          .select('name')
+          .eq('id', userId)
+          .single();
       if (mounted) {
         setState(() {
           _userName = data['name'] ?? 'User';
@@ -122,7 +131,10 @@ class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
   Future<void> _submitProfile() async {
     if (!_formKey.currentState!.validate()) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Please fix the errors before saving.'), backgroundColor: Colors.red),
+        const SnackBar(
+          content: Text('Please fix the errors before saving.'),
+          backgroundColor: Colors.red,
+        ),
       );
       return;
     }
@@ -135,15 +147,24 @@ class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
     }
 
     try {
-      final weight = ProfileUtils.convertToKg(_weightController.text, _imperial);
+      final weight = ProfileUtils.convertToKg(
+        _weightController.text,
+        _imperial,
+      );
       final height = ProfileUtils.convertToCm(
         _heightController.text,
         _imperial,
         inches: _inchesController.text,
       );
-      final age = _diagnosisDate != null ? ProfileUtils.calculateAgeFromDate(_diagnosisDate!) : 0;
+      final age = _diagnosisDate != null
+          ? ProfileUtils.calculateAgeFromDate(_diagnosisDate!)
+          : 0;
       final bmr = ProfileUtils.calculateBMR(
-        gender: _gender, weightKg: weight, heightCm: height, ageYears: age);
+        gender: _gender,
+        weightKg: weight,
+        heightCm: height,
+        ageYears: age,
+      );
 
       final updates = {
         'id': userId,
@@ -158,8 +179,16 @@ class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
         'diagnosis_date': _diagnosisDate?.toIso8601String(),
         'metabolic_center': _centerController.text,
         'diet_type': _dietType,
-        'allergies': _allergiesController.text.split(',').map((e) => e.trim()).where((e) => e.isNotEmpty).toList(),
-        'disliked_ingredients': _dislikesController.text.split(',').map((e) => e.trim()).where((e) => e.isNotEmpty).toList(),
+        'allergies': _allergiesController.text
+            .split(',')
+            .map((e) => e.trim())
+            .where((e) => e.isNotEmpty)
+            .toList(),
+        'disliked_ingredients': _dislikesController.text
+            .split(',')
+            .map((e) => e.trim())
+            .where((e) => e.isNotEmpty)
+            .toList(),
         'activity_level': _activity,
         'daily_calorie_target': double.tryParse(_calorieController.text),
         'pregnancy_status': _pregnant,
@@ -174,34 +203,48 @@ class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
 
       await _supabase.from('profiles').update(updates).eq('id', userId);
 
-      final summaryResponse = await Supabase.instance.client.functions.invoke('generate-profile-summary');
-      final llmSummary = summaryResponse.data['summary'] ?? "Could not generate AI summary at this time.";
+      final summaryResponse = await Supabase.instance.client.functions.invoke(
+        'generate-profile-summary',
+      );
+      final llmSummary =
+          summaryResponse.data['summary'] ??
+          "Could not generate AI summary at this time.";
 
-      final pdfData = await ProfileUtils.generateProfilePdf(updates, llmSummary);
-      
+      final pdfData = await ProfileUtils.generateProfilePdf(
+        updates,
+        llmSummary,
+      );
+
       final nameParts = _userName.split(' ');
       final lastName = nameParts.length > 1 ? nameParts.last : nameParts.first;
-      final firstNameInitial = nameParts.first.isNotEmpty ? nameParts.first[0] : '';
+      final firstNameInitial = nameParts.first.isNotEmpty
+          ? nameParts.first[0]
+          : '';
       final dateString = DateFormat('yyyy-MM-dd').format(DateTime.now());
-      final fileName = '${lastName}_${firstNameInitial}_${dateString}.pdf';
+      final fileName = '${lastName}_${firstNameInitial}_$dateString.pdf';
       final pdfPath = '$userId/$fileName';
 
-      await _supabase.storage.from('user-profiles').uploadBinary(
+      await _supabase.storage
+          .from('user-profiles')
+          .uploadBinary(
             pdfPath,
             pdfData,
             fileOptions: const FileOptions(cacheControl: '3600', upsert: true),
           );
 
-      if (mounted) Navigator.pushReplacementNamed(context, HomeScreen.routeName);
-
+      if (mounted)
+        Navigator.pushReplacementNamed(context, HomeScreen.routeName);
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error saving profile: $e'), backgroundColor: Colors.red),
+          SnackBar(
+            content: Text('Error saving profile: $e'),
+            backgroundColor: Colors.red,
+          ),
         );
       }
     } finally {
-      if(mounted) setState(() => _isSaving = false);
+      if (mounted) setState(() => _isSaving = false);
     }
   }
 
@@ -236,7 +279,11 @@ class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
                   children: [
                     ElevatedButton(
                       onPressed: _isSaving ? null : details.onStepContinue,
-                      child: Text(_isSaving ? 'Saving...' : (_currentStep == 2 ? 'Save Profile' : 'Continue')),
+                      child: Text(
+                        _isSaving
+                            ? 'Saving...'
+                            : (_currentStep == 2 ? 'Save Profile' : 'Continue'),
+                      ),
                     ),
                     const SizedBox(width: 12),
                     if (_currentStep > 0 && !_isSaving)
@@ -252,26 +299,46 @@ class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
               Step(
                 title: const Text('Basic Info'),
                 isActive: _currentStep >= 0,
-                state: _currentStep > 0 ? StepState.complete : StepState.indexed,
+                state: _currentStep > 0
+                    ? StepState.complete
+                    : StepState.indexed,
                 content: Column(
                   children: [
                     DropdownButtonFormField<String>(
-                      value: _gender,
+                      initialValue: _gender,
                       decoration: const InputDecoration(labelText: 'Gender'),
-                      items: ['Female', 'Male', 'Other'].map((g) => DropdownMenuItem(value: g, child: Text(g))).toList(),
-                      onChanged: (value) => setState(() { _gender = value!; _updateCalorieTarget(); }),
+                      items: ['Female', 'Male', 'Other']
+                          .map(
+                            (g) => DropdownMenuItem(value: g, child: Text(g)),
+                          )
+                          .toList(),
+                      onChanged: (value) => setState(() {
+                        _gender = value!;
+                        _updateCalorieTarget();
+                      }),
                     ),
                     const SizedBox(height: 16),
                     TextFormField(
                       controller: _diagnosisDateController,
                       readOnly: true,
-                      decoration: const InputDecoration(labelText: 'Diagnosis Date', hintText: 'Used to calculate age', suffixIcon: Icon(Icons.calendar_today)),
+                      decoration: const InputDecoration(
+                        labelText: 'Diagnosis Date',
+                        hintText: 'Used to calculate age',
+                        suffixIcon: Icon(Icons.calendar_today),
+                      ),
                       onTap: () async {
-                        final pickedDate = await showDatePicker(context: context, initialDate: _diagnosisDate ?? DateTime.now(), firstDate: DateTime(1920), lastDate: DateTime.now());
+                        final pickedDate = await showDatePicker(
+                          context: context,
+                          initialDate: _diagnosisDate ?? DateTime.now(),
+                          firstDate: DateTime(1920),
+                          lastDate: DateTime.now(),
+                        );
                         if (pickedDate != null) {
                           setState(() {
                             _diagnosisDate = pickedDate;
-                            _diagnosisDateController.text = DateFormat('yyyy-MM-dd').format(pickedDate);
+                            _diagnosisDateController.text = DateFormat(
+                              'yyyy-MM-dd',
+                            ).format(pickedDate);
                             _updateCalorieTarget();
                           });
                         }
@@ -286,8 +353,13 @@ class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
                     ),
                     TextFormField(
                       controller: _weightController,
-                      keyboardType: const TextInputType.numberWithOptions(decimal: true),
-                      decoration: InputDecoration(labelText: 'Weight', suffixText: _imperial ? 'lbs' : 'kg'),
+                      keyboardType: const TextInputType.numberWithOptions(
+                        decimal: true,
+                      ),
+                      decoration: InputDecoration(
+                        labelText: 'Weight',
+                        suffixText: _imperial ? 'lbs' : 'kg',
+                      ),
                       onChanged: (_) => _updateCalorieTarget(),
                     ),
                     const SizedBox(height: 16),
@@ -298,7 +370,9 @@ class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
                             child: TextFormField(
                               controller: _heightController,
                               keyboardType: TextInputType.number,
-                              decoration: const InputDecoration(labelText: 'Height (ft)'),
+                              decoration: const InputDecoration(
+                                labelText: 'Height (ft)',
+                              ),
                               onChanged: (_) => _updateCalorieTarget(),
                             ),
                           ),
@@ -307,7 +381,9 @@ class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
                             child: TextFormField(
                               controller: _inchesController,
                               keyboardType: TextInputType.number,
-                              decoration: const InputDecoration(labelText: 'Height (in)'),
+                              decoration: const InputDecoration(
+                                labelText: 'Height (in)',
+                              ),
                               onChanged: (_) => _updateCalorieTarget(),
                             ),
                           ),
@@ -316,8 +392,13 @@ class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
                     else
                       TextFormField(
                         controller: _heightController,
-                        keyboardType: const TextInputType.numberWithOptions(decimal: true),
-                        decoration: const InputDecoration(labelText: 'Height', suffixText: 'cm'),
+                        keyboardType: const TextInputType.numberWithOptions(
+                          decimal: true,
+                        ),
+                        decoration: const InputDecoration(
+                          labelText: 'Height',
+                          suffixText: 'cm',
+                        ),
                         onChanged: (_) => _updateCalorieTarget(),
                       ),
                   ],
@@ -326,46 +407,81 @@ class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
               Step(
                 title: const Text('PKU Details'),
                 isActive: _currentStep >= 1,
-                state: _currentStep > 1 ? StepState.complete : StepState.indexed,
+                state: _currentStep > 1
+                    ? StepState.complete
+                    : StepState.indexed,
                 content: Column(
                   // --- THIS SECTION IS NOW FILLED IN ---
                   children: [
                     TextFormField(
                       controller: _pheController,
-                      keyboardType: const TextInputType.numberWithOptions(decimal: true),
-                      decoration: const InputDecoration(labelText: 'Daily PHE Tolerance (mg)'),
+                      keyboardType: const TextInputType.numberWithOptions(
+                        decimal: true,
+                      ),
+                      decoration: const InputDecoration(
+                        labelText: 'Daily PHE Tolerance (mg)',
+                      ),
                     ),
                     const SizedBox(height: 16),
                     TextFormField(
                       controller: _proteinController,
-                      keyboardType: const TextInputType.numberWithOptions(decimal: true),
-                      decoration: const InputDecoration(labelText: 'Daily Protein Goal (g)'),
+                      keyboardType: const TextInputType.numberWithOptions(
+                        decimal: true,
+                      ),
+                      decoration: const InputDecoration(
+                        labelText: 'Daily Protein Goal (g)',
+                      ),
                     ),
                     const SizedBox(height: 16),
                     DropdownButtonFormField<String>(
-                      value: _dietType,
+                      initialValue: _dietType,
                       decoration: const InputDecoration(labelText: 'Diet Type'),
                       isExpanded: true,
-                      items: _dietTypes.map((s) => DropdownMenuItem(value: s, child: Text(s, overflow: TextOverflow.ellipsis))).toList(),
+                      items: _dietTypes
+                          .map(
+                            (s) => DropdownMenuItem(
+                              value: s,
+                              child: Text(s, overflow: TextOverflow.ellipsis),
+                            ),
+                          )
+                          .toList(),
                       onChanged: (value) => setState(() => _dietType = value!),
-                      validator: (value) => value == null ? 'Please select a diet type' : null,
+                      validator: (value) =>
+                          value == null ? 'Please select a diet type' : null,
                     ),
                     const SizedBox(height: 16),
                     DropdownButtonFormField<String>(
-                      value: _severity,
-                      decoration: const InputDecoration(labelText: 'PKU Severity'),
-                      items: ['Hyperphenylalaninemia', 'Mild PKU', 'Moderate PKU', 'Classic PKU'].map((s) => DropdownMenuItem(value: s, child: Text(s))).toList(),
+                      initialValue: _severity,
+                      decoration: const InputDecoration(
+                        labelText: 'PKU Severity',
+                      ),
+                      items:
+                          [
+                                'Hyperphenylalaninemia',
+                                'Mild PKU',
+                                'Moderate PKU',
+                                'Classic PKU',
+                              ]
+                              .map(
+                                (s) =>
+                                    DropdownMenuItem(value: s, child: Text(s)),
+                              )
+                              .toList(),
                       onChanged: (value) => setState(() => _severity = value!),
                     ),
                     const SizedBox(height: 16),
                     TextFormField(
                       controller: _formulaController,
-                      decoration: const InputDecoration(labelText: 'Formula Used (e.g., Phenex-1)'),
+                      decoration: const InputDecoration(
+                        labelText: 'Formula Used (e.g., Phenex-1)',
+                      ),
                     ),
                     const SizedBox(height: 16),
                     TextFormField(
                       controller: _centerController,
-                      decoration: const InputDecoration(labelText: 'Primary Hospital / Metabolic Clinic'),
+                      decoration: const InputDecoration(
+                        labelText: 'Primary Hospital / Metabolic Clinic',
+                      ),
                     ),
                   ],
                 ),
@@ -377,24 +493,46 @@ class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
                   children: [
                     TextFormField(
                       controller: _allergiesController,
-                      decoration: const InputDecoration(labelText: 'Allergies (comma-separated)'),
+                      decoration: const InputDecoration(
+                        labelText: 'Allergies (comma-separated)',
+                      ),
                     ),
                     const SizedBox(height: 16),
                     TextFormField(
                       controller: _dislikesController,
-                      decoration: const InputDecoration(labelText: 'Disliked Ingredients (comma-separated)'),
+                      decoration: const InputDecoration(
+                        labelText: 'Disliked Ingredients (comma-separated)',
+                      ),
                     ),
                     const SizedBox(height: 16),
                     DropdownButtonFormField<String>(
-                      value: _activity,
-                      decoration: const InputDecoration(labelText: 'Activity Level'),
-                      items: ['Sedentary', 'Lightly Active', 'Moderately Active', 'Very Active'].map((a) => DropdownMenuItem(value: a, child: Text(a))).toList(),
-                      onChanged: (value) => setState(() { _activity = value!; _updateCalorieTarget(); }),
+                      initialValue: _activity,
+                      decoration: const InputDecoration(
+                        labelText: 'Activity Level',
+                      ),
+                      items:
+                          [
+                                'Sedentary',
+                                'Lightly Active',
+                                'Moderately Active',
+                                'Very Active',
+                              ]
+                              .map(
+                                (a) =>
+                                    DropdownMenuItem(value: a, child: Text(a)),
+                              )
+                              .toList(),
+                      onChanged: (value) => setState(() {
+                        _activity = value!;
+                        _updateCalorieTarget();
+                      }),
                     ),
                     const SizedBox(height: 16),
                     TextFormField(
                       controller: _calorieController,
-                      keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                      keyboardType: const TextInputType.numberWithOptions(
+                        decimal: true,
+                      ),
                       decoration: const InputDecoration(
                         labelText: 'Daily Calorie Goal (kcal)',
                         hintText: 'Auto-calculated or override',
@@ -404,10 +542,20 @@ class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
                           context: context,
                           builder: (context) => AlertDialog(
                             title: const Text('Manual Override'),
-                            content: const Text('This value is auto-calculated. Do you want to enter your own target?'),
+                            content: const Text(
+                              'This value is auto-calculated. Do you want to enter your own target?',
+                            ),
                             actions: [
-                              TextButton(onPressed: () => Navigator.of(context).pop(false), child: const Text('Cancel')),
-                              TextButton(onPressed: () => Navigator.of(context).pop(true), child: const Text('Proceed')),
+                              TextButton(
+                                onPressed: () =>
+                                    Navigator.of(context).pop(false),
+                                child: const Text('Cancel'),
+                              ),
+                              TextButton(
+                                onPressed: () =>
+                                    Navigator.of(context).pop(true),
+                                child: const Text('Proceed'),
+                              ),
                             ],
                           ),
                         );
@@ -435,7 +583,8 @@ class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
                     SwitchListTile(
                       title: const Text('Enable Caregiver Access'),
                       value: _caregiverAccess,
-                      onChanged: (val) => setState(() => _caregiverAccess = val),
+                      onChanged: (val) =>
+                          setState(() => _caregiverAccess = val),
                     ),
                   ],
                 ),

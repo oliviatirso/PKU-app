@@ -8,7 +8,7 @@ import 'package:pkuapp/screens/home/settings/settings.dart';
 
 class HomeScreen extends StatefulWidget {
   static const routeName = '/home';
-  const HomeScreen({Key? key}) : super(key: key);
+  const HomeScreen({super.key});
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -32,10 +32,15 @@ class _HomeScreenState extends State<HomeScreen> {
       body: _pages[_currentIndex],
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex,
-        onTap: (index) => setState(() { _currentIndex = index; }),
+        onTap: (index) => setState(() {
+          _currentIndex = index;
+        }),
         type: BottomNavigationBarType.fixed, // Mantém a aparência consistente
-        selectedItemColor: Theme.of(context).colorScheme.primary, // Adiciona cor ao item selecionado
-        unselectedItemColor: Colors.grey.shade600, // Adiciona cor aos itens não selecionados
+        selectedItemColor: Theme.of(
+          context,
+        ).colorScheme.primary, // Adiciona cor ao item selecionado
+        unselectedItemColor:
+            Colors.grey.shade600, // Adiciona cor aos itens não selecionados
         items: const [
           // 3. ATUALIZE o primeiro item da barra de navegação
           BottomNavigationBarItem(

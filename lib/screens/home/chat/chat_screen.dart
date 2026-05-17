@@ -21,7 +21,11 @@ class ChatScreen extends StatefulWidget {
   final String conversationId;
   final String title;
 
-  const ChatScreen({super.key, required this.conversationId, required this.title});
+  const ChatScreen({
+    super.key,
+    required this.conversationId,
+    required this.title,
+  });
 
   @override
   State<ChatScreen> createState() => _ChatScreenState();
@@ -59,12 +63,17 @@ class _ChatScreenState extends State<ChatScreen> {
     final currentUserId = Supabase.instance.client.auth.currentUser?.id;
     if (mounted) {
       setState(() {
-        _messages = messageData.map((msg) => Message(
-          id: msg['id'].toString(),
-          content: msg['content'],
-          isMine: msg['sender'] == currentUserId || msg['sender'] == 'user',
-          timestamp: DateTime.parse(msg['created_at']).toLocal(),
-        )).toList();
+        _messages = messageData
+            .map(
+              (msg) => Message(
+                id: msg['id'].toString(),
+                content: msg['content'],
+                isMine:
+                    msg['sender'] == currentUserId || msg['sender'] == 'user',
+                timestamp: DateTime.parse(msg['created_at']).toLocal(),
+              ),
+            )
+            .toList();
         _isLoading = false;
       });
     }
@@ -82,21 +91,32 @@ class _ChatScreenState extends State<ChatScreen> {
     }
   }
 
-  Future<void> _generateAIResponse(String queryText, {String? updateMessageId}) async {
+  Future<void> _generateAIResponse(
+    String queryText, {
+    String? updateMessageId,
+  }) async {
     setState(() => _isTyping = true);
     if (updateMessageId == null) {
       WidgetsBinding.instance.addPostFrameCallback((_) => _scrollToBottom());
     }
 
     List<Map<String, String>> chatHistory = _messages
-        .map((msg) => {"role": msg.isMine ? "user" : "assistant", "content": msg.content})
+        .map(
+          (msg) => {
+            "role": msg.isMine ? "user" : "assistant",
+            "content": msg.content,
+          },
+        )
         .toList();
 
     if (chatHistory.length > 10) {
       chatHistory = chatHistory.sublist(chatHistory.length - 10);
     }
 
-    final aiReply = await _chatService.getRAGResponse(query: queryText, history: chatHistory);
+    final aiReply = await _chatService.getRAGResponse(
+      query: queryText,
+      history: chatHistory,
+    );
 
     if (!mounted) return;
     setState(() => _isTyping = false);
@@ -123,12 +143,14 @@ class _ChatScreenState extends State<ChatScreen> {
 
       if (mounted && aiMsgId != null) {
         setState(() {
-          _messages.add(Message(
-            id: aiMsgId,
-            content: aiReply,
-            isMine: false,
-            timestamp: DateTime.now(),
-          ));
+          _messages.add(
+            Message(
+              id: aiMsgId,
+              content: aiReply,
+              isMine: false,
+              timestamp: DateTime.now(),
+            ),
+          );
         });
         WidgetsBinding.instance.addPostFrameCallback((_) => _scrollToBottom());
       }
@@ -169,17 +191,17 @@ class _ChatScreenState extends State<ChatScreen> {
     );
 
     if (realId != null && mounted) {
-       final index = _messages.indexWhere((m) => m.id == tempId);
-       if (index != -1) {
-         setState(() {
-           _messages[index] = Message(
-             id: realId,
-             content: userMessage.content,
-             isMine: userMessage.isMine,
-             timestamp: userMessage.timestamp,
-           );
-         });
-       }
+      final index = _messages.indexWhere((m) => m.id == tempId);
+      if (index != -1) {
+        setState(() {
+          _messages[index] = Message(
+            id: realId,
+            content: userMessage.content,
+            isMine: userMessage.isMine,
+            timestamp: userMessage.timestamp,
+          );
+        });
+      }
     }
 
     await _generateAIResponse(text);
@@ -223,7 +245,6 @@ class _ChatScreenState extends State<ChatScreen> {
         }
       }
       await _generateAIResponse(newText, updateMessageId: aiMessageIdToReplace);
-
     } catch (e) {
       // 5. CATCH AND PRINT THE ERROR
       print("CRITICAL ERROR SAVING EDIT: $e");
@@ -231,15 +252,18 @@ class _ChatScreenState extends State<ChatScreen> {
       if (mounted) {
         // REVERT OPTIMISTIC UPDATE IF FAILED
         setState(() {
-           _messages[index] = Message(
-             id: idToEdit,
-             content: oldText, // Revert to old text
-             isMine: true,
-             timestamp: _messages[index].timestamp,
-           );
+          _messages[index] = Message(
+            id: idToEdit,
+            content: oldText, // Revert to old text
+            isMine: true,
+            timestamp: _messages[index].timestamp,
+          );
         });
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Failed to save edit: $e'), backgroundColor: Colors.red),
+          SnackBar(
+            content: Text('Failed to save edit: $e'),
+            backgroundColor: Colors.red,
+          ),
         );
       }
     }
@@ -280,7 +304,10 @@ class _ChatScreenState extends State<ChatScreen> {
             // ALWAYS show 'Delete' for both User and AI messages
             ListTile(
               leading: const Icon(Icons.delete, color: Colors.red),
-              title: const Text('Delete Message', style: TextStyle(color: Colors.red)),
+              title: const Text(
+                'Delete Message',
+                style: TextStyle(color: Colors.red),
+              ),
               onTap: () {
                 Navigator.pop(ctx);
                 _deleteMessage(msg.id);
@@ -296,14 +323,22 @@ class _ChatScreenState extends State<ChatScreen> {
     final theme = Theme.of(context);
     final isUser = msg.isMine;
 
-    final bgColor = isUser ? theme.colorScheme.primary : theme.colorScheme.surfaceVariant;
-    final textColor = isUser ? theme.colorScheme.onPrimary : theme.colorScheme.onSurfaceVariant;
-    final alignment = isUser ? CrossAxisAlignment.end : CrossAxisAlignment.start;
+    final bgColor = isUser
+        ? theme.colorScheme.primary
+        : theme.colorScheme.surfaceContainerHighest;
+    final textColor = isUser
+        ? theme.colorScheme.onPrimary
+        : theme.colorScheme.onSurfaceVariant;
+    final alignment = isUser
+        ? CrossAxisAlignment.end
+        : CrossAxisAlignment.start;
     final radius = BorderRadius.only(
       topLeft: const Radius.circular(18),
       topRight: const Radius.circular(18),
       bottomLeft: isUser ? const Radius.circular(18) : const Radius.circular(4),
-      bottomRight: isUser ? const Radius.circular(4) : const Radius.circular(18),
+      bottomRight: isUser
+          ? const Radius.circular(4)
+          : const Radius.circular(18),
     );
 
     return GestureDetector(
@@ -321,13 +356,18 @@ class _ChatScreenState extends State<ChatScreen> {
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
               decoration: BoxDecoration(color: bgColor, borderRadius: radius),
-              child: Text(msg.content, style: TextStyle(color: textColor, fontSize: 16)),
+              child: Text(
+                msg.content,
+                style: TextStyle(color: textColor, fontSize: 16),
+              ),
             ),
             Padding(
               padding: const EdgeInsets.only(left: 8, right: 8, top: 4),
               child: Text(
                 DateFormat('h:mm a').format(msg.timestamp),
-                style: theme.textTheme.bodySmall?.copyWith(color: Colors.grey.shade600),
+                style: theme.textTheme.bodySmall?.copyWith(
+                  color: Colors.grey.shade600,
+                ),
               ),
             ),
           ],
@@ -361,7 +401,9 @@ class _ChatScreenState extends State<ChatScreen> {
                 padding: const EdgeInsets.all(8),
                 margin: const EdgeInsets.only(bottom: 8),
                 decoration: BoxDecoration(
-                  color: Theme.of(context).colorScheme.primaryContainer.withOpacity(0.3),
+                  color: Theme.of(
+                    context,
+                  ).colorScheme.primaryContainer.withOpacity(0.3),
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: Row(
@@ -379,7 +421,7 @@ class _ChatScreenState extends State<ChatScreen> {
                           _focusNode.unfocus();
                         });
                       },
-                    )
+                    ),
                   ],
                 ),
               ),
@@ -390,10 +432,15 @@ class _ChatScreenState extends State<ChatScreen> {
                     controller: _textController,
                     focusNode: _focusNode,
                     decoration: InputDecoration(
-                      hintText: isEditing ? 'Update message...' : 'Message PKU Wise...',
+                      hintText: isEditing
+                          ? 'Update message...'
+                          : 'Message PKU Wise...',
                       filled: true,
                       fillColor: Theme.of(context).scaffoldBackgroundColor,
-                      contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                      contentPadding: const EdgeInsets.symmetric(
+                        horizontal: 16,
+                        vertical: 10,
+                      ),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(30),
                         borderSide: BorderSide.none,
@@ -429,22 +476,30 @@ class _ChatScreenState extends State<ChatScreen> {
             child: _isLoading
                 ? const Center(child: CircularProgressIndicator())
                 : _messages.isEmpty
-                    ? Center(child: Text('No messages yet.', style: TextStyle(color: Colors.grey.shade600)))
-                    : ListView.builder(
-                        controller: _scrollController,
-                        padding: const EdgeInsets.symmetric(vertical: 8),
-                        itemCount: _messages.length + (_isTyping ? 1 : 0),
-                        itemBuilder: (ctx, index) {
-                          if (_isTyping && index == _messages.length) {
-                            return Container(
-                              padding: const EdgeInsets.all(16),
-                              alignment: Alignment.centerLeft,
-                              child: const Text('PKU Wise is typing...'),
-                            );
-                          }
-                          return _buildMessage(_messages[index], isLast: index == _messages.length - 1);
-                        },
-                      ),
+                ? Center(
+                    child: Text(
+                      'No messages yet.',
+                      style: TextStyle(color: Colors.grey.shade600),
+                    ),
+                  )
+                : ListView.builder(
+                    controller: _scrollController,
+                    padding: const EdgeInsets.symmetric(vertical: 8),
+                    itemCount: _messages.length + (_isTyping ? 1 : 0),
+                    itemBuilder: (ctx, index) {
+                      if (_isTyping && index == _messages.length) {
+                        return Container(
+                          padding: const EdgeInsets.all(16),
+                          alignment: Alignment.centerLeft,
+                          child: const Text('PKU Wise is typing...'),
+                        );
+                      }
+                      return _buildMessage(
+                        _messages[index],
+                        isLast: index == _messages.length - 1,
+                      );
+                    },
+                  ),
           ),
           _buildInputBar(),
         ],

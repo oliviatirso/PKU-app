@@ -20,5 +20,6 @@
   ],
   "[typescript]": {
     "editor.defaultFormatter": "denoland.vscode-deno"
-  }
+  },
+  "cmake.sourceDirectory": "/Users/oliviatirso/GitHub/PKU_app/linux"
 }

@@ -6,7 +6,6 @@ import 'screens/onboarding_screen.dart';
 import 'screens/auth/auth_screen.dart';
 import 'screens/home/home_screen.dart';
 import 'screens/home/settings/settings.dart';
-import 'screens/home/settings/account_settings.dart';
 import 'screens/auth/complete_profile_screen.dart';
 import 'theme.dart';
 
@@ -54,7 +53,6 @@ class _PKUAppState extends State<PKUApp> {
       final session = data.session;
 
       if (event == AuthChangeEvent.signedIn && session != null) {
-        
         final userId = session.user.id;
 
         final response = await Supabase.instance.client
@@ -102,13 +100,12 @@ class _PKUAppState extends State<PKUApp> {
       // Define available routes
       routes: {
         OnboardingScreen.routeName: (ctx) => OnboardingScreen(
-              onToggleTheme: (newMode) => setState(() => _themeMode = newMode),
-            ),
+          onToggleTheme: (newMode) => setState(() => _themeMode = newMode),
+        ),
         AuthScreen.routeName: (ctx) => const AuthScreen(),
         HomeScreen.routeName: (ctx) => const HomeScreen(),
         SettingsScreen.routeName: (ctx) => const SettingsScreen(),
-        CompleteProfileScreen.routeName: (ctx) =>
-            const CompleteProfileScreen(),
+        CompleteProfileScreen.routeName: (ctx) => const CompleteProfileScreen(),
       },
     );
   }

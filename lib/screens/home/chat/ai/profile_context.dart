@@ -67,7 +67,9 @@ class ProfileContext {
       bmr: (p['bmr'] as num?)?.toDouble(),
       pheToleranceMg: (p['phe_tolerance_mg'] as num?)?.toDouble(),
       proteinGoalG: (p['protein_goal_g'] as num?)?.toDouble(),
-      diagnosisDate: p['diagnosis_date'] != null ? DateTime.tryParse(p['diagnosis_date']) : null,
+      diagnosisDate: p['diagnosis_date'] != null
+          ? DateTime.tryParse(p['diagnosis_date'])
+          : null,
       metabolicCenter: p['metabolic_center'],
       dietType: p['diet_type'],
       allergies: List<String>.from(p['allergies'] ?? []),
@@ -89,21 +91,33 @@ class ProfileContext {
     final buffer = StringBuffer();
     buffer.writeln("Patient name: $name");
     buffer.writeln("Country: $country");
-    if (dob != null) buffer.writeln("Date of Birth: \${dob!.toIso8601String().split('T').first}");
+    if (dob != null)
+      buffer.writeln(
+        "Date of Birth: \${dob!.toIso8601String().split('T').first}",
+      );
     if (gender != null) buffer.writeln("Gender: $gender");
     buffer.writeln("Uses Imperial Units: $usesImperial");
-    if (weightKg != null) buffer.writeln("Weight: ${weightKg} kg");
-    if (heightCm != null) buffer.writeln("Height: ${heightCm} cm");
+    if (weightKg != null) buffer.writeln("Weight: $weightKg kg");
+    if (heightCm != null) buffer.writeln("Height: $heightCm cm");
     if (bmr != null) buffer.writeln("BMR: ${bmr!.toStringAsFixed(2)} kcal/day");
-    if (pheToleranceMg != null) buffer.writeln("PHE Tolerance: $pheToleranceMg mg/day");
-    if (proteinGoalG != null) buffer.writeln("Protein Goal: $proteinGoalG g/day");
-    if (diagnosisDate != null) buffer.writeln("Diagnosis Date: \${diagnosisDate!.toIso8601String().split('T').first}");
-    if (metabolicCenter != null) buffer.writeln("Metabolic Center: $metabolicCenter");
+    if (pheToleranceMg != null)
+      buffer.writeln("PHE Tolerance: $pheToleranceMg mg/day");
+    if (proteinGoalG != null)
+      buffer.writeln("Protein Goal: $proteinGoalG g/day");
+    if (diagnosisDate != null)
+      buffer.writeln(
+        "Diagnosis Date: \${diagnosisDate!.toIso8601String().split('T').first}",
+      );
+    if (metabolicCenter != null)
+      buffer.writeln("Metabolic Center: $metabolicCenter");
     if (dietType != null) buffer.writeln("Diet Type: $dietType");
-    if (allergies.isNotEmpty) buffer.writeln("Allergies: ${allergies.join(', ')}");
-    if (dislikedIngredients.isNotEmpty) buffer.writeln("Dislikes: ${dislikedIngredients.join(', ')}");
+    if (allergies.isNotEmpty)
+      buffer.writeln("Allergies: ${allergies.join(', ')}");
+    if (dislikedIngredients.isNotEmpty)
+      buffer.writeln("Dislikes: ${dislikedIngredients.join(', ')}");
     if (activityLevel != null) buffer.writeln("Activity Level: $activityLevel");
-    if (dailyCalorieTarget != null) buffer.writeln("Calorie Target: $dailyCalorieTarget kcal/day");
+    if (dailyCalorieTarget != null)
+      buffer.writeln("Calorie Target: $dailyCalorieTarget kcal/day");
     if (pregnancyStatus) buffer.writeln("Status: Pregnant");
     if (breastfeeding) buffer.writeln("Status: Breastfeeding");
     if (formulaType != null) buffer.writeln("Formula: $formulaType");
