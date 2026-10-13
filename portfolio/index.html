@@ -1,0 +1,600 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Malihe Aliasgari</title>
+<meta name="description" content="Malihe Aliasgari, Ph.D., Kean University: trustworthy AI for health, LLM and recommender systems for PKU, and research in information theory and privacy.">
+<meta property="og:type" content="profile">
+<meta property="og:title" content="Malihe Aliasgari, Ph.D. · Trustworthy AI for Health">
+<meta property="og:description" content="Assistant Professor at Kean University: LLM and recommender systems for PKU, collaborative dementia research, and work in information theory, privacy and coding.">
+<meta property="og:url" content="https://malihealiasgari20.github.io/">
+<meta name="twitter:card" content="summary">
+<link rel="canonical" href="https://malihealiasgari20.github.io/">
+<meta name="theme-color" content="#fbfaf7" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#121417" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230f6b5c'/%3E%3Ctext x='32' y='42' font-family='Georgia,serif' font-size='28' font-weight='600' fill='%23fff' text-anchor='middle'%3EMA%3C/text%3E%3C/svg%3E">
+<!--
+  HOW TO EDIT
+  - Optionally add <meta property="og:image" content="https://malihealiasgari20.github.io/preview.png">
+    (a 1200x627 image) so link previews on LinkedIn show a picture.
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  color-scheme:light dark;
+  --bg:#fbfaf7; --surface:#ffffff; --text:#1c1d21; --muted:#5d6068;
+  --line:#e6e3dc; --accent:#0f6b5c; --accent-soft:#e3f1ee;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#121417; --surface:#1a1d21; --text:#ecebe7; --muted:#a3a6ad;
+    --line:#2b2f35; --accent:#5cc4b0; --accent-soft:#1d302d;
+  }
+}
+:root[data-theme="light"]{color-scheme:light}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --bg:#121417; --surface:#1a1d21; --text:#ecebe7; --muted:#a3a6ad;
+  --line:#2b2f35; --accent:#5cc4b0; --accent-soft:#1d302d;
+}
+*{box-sizing:border-box}
+@media (prefers-reduced-motion: no-preference){html{scroll-behavior:smooth}}
+html{scroll-padding-top:72px}
+body{margin:0;background:var(--bg);color:var(--text);font:16px/1.65 Inter,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+a{color:var(--accent)}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+h1,h2,h3,h4{font-family:Fraunces,Georgia,serif;font-weight:600;line-height:1.2;margin:0}
+.wrap{max-width:980px;margin:0 auto;padding:0 16px}
+.skip{position:absolute;left:-999px;top:8px}
+.skip:focus{left:16px;z-index:20;background:var(--surface);color:var(--text);padding:6px 10px;border-radius:8px}
+
+/* nav */
+nav{position:sticky;top:0;z-index:10;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+nav .wrap{display:flex;align-items:center;gap:20px;height:56px}
+nav .brand{font-family:Fraunces,serif;font-weight:600;text-decoration:none;color:var(--text);margin-right:auto}
+nav .links{display:flex;gap:16px;font-size:14px}
+nav .links a{color:var(--muted);text-decoration:none}
+nav .links a:hover{color:var(--text)}
+#themeBtn{background:none;border:1px solid var(--line);color:var(--text);border-radius:8px;padding:4px 10px;cursor:pointer;font:inherit;font-size:13px;white-space:nowrap}
+@media (max-width:860px){
+  html{scroll-padding-top:100px}
+  nav .wrap{flex-wrap:wrap;height:auto;padding-top:10px;padding-bottom:6px;row-gap:4px}
+  nav .links{order:3;width:100%;overflow-x:auto;white-space:nowrap;padding-bottom:4px;scrollbar-width:none}
+  nav .links::-webkit-scrollbar{display:none}
+}
+
+/* hero */
+.hero{padding:72px 0 40px}
+.eyebrow{color:var(--accent);font-weight:600;font-size:14px;letter-spacing:.04em;text-transform:uppercase}
+.hero h1{font-size:clamp(34px,6vw,56px);margin:10px 0 6px}
+.hero .role{font-size:17px;color:var(--muted);margin:0 0 20px}
+.hero p.lead{font-size:clamp(18px,2.4vw,21px);max-width:720px;margin:0 0 28px}
+.cta{display:flex;flex-wrap:wrap;gap:12px}
+.btn{display:inline-block;padding:10px 18px;border-radius:10px;text-decoration:none;font-weight:500;font-size:15px;border:1px solid var(--line);color:var(--text)}
+.btn:hover{border-color:var(--accent)}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--bg)}
+.numbers{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(150px,100%),1fr));gap:12px;margin-top:40px}
+.num{border:1px solid var(--line);border-radius:12px;padding:14px 16px;background:var(--surface)}
+.num b{display:block;font-family:Fraunces,serif;font-size:30px;line-height:1.1;color:var(--accent)}
+.num span{font-size:13.5px;color:var(--muted)}
+
+/* sections */
+section{padding:56px 0;border-top:1px solid var(--line)}
+section h2{font-size:30px;margin-bottom:8px}
+h3.group{font-family:Inter,sans-serif;font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:32px 0 14px}
+.sub{color:var(--muted);margin:0 0 32px;max-width:700px}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(280px,100%),1fr));gap:20px}
+.grid3{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(240px,100%),1fr));gap:20px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:clamp(16px,5vw,24px)}
+.card h3{font-size:20px;margin-bottom:6px}
+.card p{margin:0 0 10px}
+.card p:last-child{margin-bottom:0}
+.meta{color:var(--muted);font-size:14px;margin-bottom:12px}
+ul.tight{margin:0;padding-left:20px}
+ul.tight li{margin:5px 0}
+.kicker{font-size:13px;font-weight:600;color:var(--accent);text-transform:uppercase;letter-spacing:.04em;margin-bottom:6px}
+
+/* projects */
+.project{margin-bottom:24px}
+.project .head{display:flex;flex-wrap:wrap;align-items:baseline;gap:8px 14px;margin-bottom:4px}
+.badge{font-size:12px;font-weight:600;border:1px solid var(--accent);color:var(--accent);border-radius:6px;padding:1px 8px;white-space:nowrap}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(150px,100%),1fr));gap:12px;margin:18px 0}
+.stat{border:1px solid var(--line);border-radius:10px;padding:12px 14px}
+.stat b{display:block;font-family:Fraunces,serif;font-size:22px;color:var(--accent)}
+.stat span{font-size:13px;color:var(--muted)}
+.two-lens{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(260px,100%),1fr));gap:16px;margin-top:16px}
+.lens{background:var(--bg);border-radius:10px;padding:14px 16px;border:1px solid var(--line)}
+.lens h4{font-family:Inter,sans-serif;margin:0 0 6px;font-size:13px;text-transform:uppercase;letter-spacing:.04em;color:var(--accent)}
+.lens ul{margin:0;padding-left:18px;font-size:15px}
+.lens li{margin:4px 0}
+.stack{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px}
+.stack span{font-size:12.5px;border:1px solid var(--line);border-radius:6px;padding:2px 8px;color:var(--muted)}
+
+/* timeline */
+.timeline{display:grid;gap:18px}
+.item{display:grid;grid-template-columns:140px 1fr;gap:16px}
+.item .when{color:var(--muted);font-size:14px;padding-top:2px}
+.item h4{font-size:18px}
+.item .meta{margin:2px 0 0}
+@media (max-width:600px){.item{grid-template-columns:1fr;gap:0}}
+
+/* publications */
+.filters{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:8px}
+.filters button{font:inherit;font-size:14px;border:1px solid var(--line);background:var(--surface);color:var(--text);border-radius:999px;padding:5px 14px;cursor:pointer}
+.filters button[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--bg)}
+ol.pubs{padding-left:22px;margin:0}
+ol.pubs li{margin:0 0 12px;overflow-wrap:anywhere}
+.venue{color:var(--muted)}
+
+.contact{text-align:center;padding:72px 0}
+.contact p{color:var(--muted);max-width:580px;margin:8px auto 24px}
+footer{border-top:1px solid var(--line);color:var(--muted);font-size:13px;padding:24px 0;text-align:center}
+
+@media print{
+  :root,:root[data-theme],:root:not([data-theme="light"]){
+    --bg:#fff;--surface:#fff;--text:#000;--muted:#444;--line:#bbb;--accent:#0f6b5c;--accent-soft:#eef6f4;
+  }
+  nav,.skip,.hero .cta,.filters,.filter-note{display:none}
+  section{break-inside:auto;padding:24px 0}
+  .card,.item,.stat,ol.pubs li{break-inside:avoid}
+  h2,h3,h4{break-after:avoid}
+  #publications [hidden]{display:block}
+  #publications ol.pubs li[hidden]{display:list-item}
+  .contact .btn{border:0;padding:0 6px;background:none;color:#000}
+  .contact a[href^="http"]::after{content:" (" attr(href) ")";font-size:12px}
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<nav aria-label="Sections">
+  <div class="wrap">
+    <a class="brand" href="#top">Malihe Aliasgari</a>
+    <div class="links">
+      <a href="#about">About</a>
+      <a href="#research">Research</a>
+      <a href="#projects">Projects</a>
+      <a href="#experience">Experience</a>
+      <a href="#publications">Publications</a>
+      <a href="#teaching">Teaching</a>
+      <a href="#skills">Skills</a>
+      <a href="#contact">Contact</a>
+    </div>
+    <button id="themeBtn" type="button" aria-pressed="false">Dark mode</button>
+  </div>
+</nav>
+
+<main id="main">
+<header class="hero" id="top">
+  <div class="wrap">
+    <div class="eyebrow">Trustworthy AI for health · Information theory · Machine learning</div>
+    <h1>Malihe Aliasgari, Ph.D.</h1>
+    <p class="role">Assistant Professor, Department of Mathematical Sciences, Kean University · Union, NJ</p>
+    <p class="lead">
+      I turn rigorous mathematics into AI that people can rely on. Trained in both
+      <strong>electrical engineering</strong> and <strong>pure mathematics</strong>, I lead
+      interdisciplinary teams building large-language-model and recommender systems for
+      <strong>phenylketonuria (PKU)</strong>, and collaborate on speech- and LLM-based research on
+      <strong>dementia</strong>, with safety rules and evaluation at the core.
+    </p>
+    <div class="cta">
+      <a class="btn primary" href="#projects">See my projects</a>
+      <a class="btn" href="cv.pdf" download="Malihe-Aliasgari-CV.pdf">Download CV (PDF)</a>
+      <a class="btn" href="#contact">Get in touch</a>
+    </div>
+    <div class="numbers">
+      <div class="num"><b>2</b><span>Ph.D.s: Electrical Engineering (NJIT) and Pure Mathematics (Amirkabir University of Technology)</span></div>
+      <div class="num"><b>7</b><span>peer-reviewed journal articles, incl. 3 in IEEE Transactions</span></div>
+      <div class="num"><b>10</b><span>conference papers, incl. 2× IEEE ISIT</span></div>
+      <div class="num"><b>6</b><span>manuscripts under review or submitted</span></div>
+    </div>
+  </div>
+</header>
+
+<section id="about">
+  <div class="wrap">
+    <h2>About</h2>
+    <p class="sub">
+      My work spans algebraic coding theory, privacy and distributed computing, and applied AI.
+      I started in coding theory and remain active in all three; the common thread is mathematics
+      that makes systems reliable. I'm open to faculty and research-scientist roles and to applied
+      ML / health-tech positions in industry.
+    </p>
+    <div class="grid2">
+      <div class="card">
+        <div class="kicker">For academic search committees</div>
+        <ul class="tight">
+          <li>Active <strong>AI-for-health</strong> research program: a published IEEE HealthCom 2024 paper on PKU food recommendation, manuscripts under review at JMIR Formative Research and Discover Artificial Intelligence, and external grant proposals to NPKUA and the Caplan Foundation.</li>
+          <li>Theory foundations: three IEEE Transactions papers (Information Forensics &amp; Security 2020; Communications 2019, 2013) and two IEEE ISIT papers in privacy, distributed computing and coding theory, plus a manuscript submitted to IEEE Transactions on Information Theory.</li>
+          <li>Taught 15+ courses, from calculus to <strong>Large Language Models</strong> and <strong>Deep Learning</strong>.</li>
+          <li>Mentor to high-school, undergraduate and master's researchers; nominated for Kean's Faculty Research Mentor of the Year Award, Early Career Faculty category (2024).</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="kicker">For industry teams</div>
+        <ul class="tight">
+          <li>Leading applied AI projects end to end with student developers: recommender systems, LLM agents, retrieval-augmented generation (RAG), and mobile apps used as research tools.</li>
+          <li>Rigorous <strong>evaluation</strong>: benchmark design (60 PKU clinical scenarios across 5 age groups), retriever comparisons, and testing LLM outputs against a deterministic reference calculator.</li>
+          <li><strong>Privacy-preserving and distributed computation</strong>: an IEEE TIFS paper on private, secure distributed matrix multiplication and two IEEE ISIT papers on coded computation.</li>
+          <li>Deep learning for time series (LSTM, Transformer, federated learning) and generative AI for decision-making.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="research">
+  <div class="wrap">
+    <h2>Research Areas</h2>
+    <p class="sub">Three research threads: reliable AI for health, trustworthy distributed computing, and the coding theory and algebra that underpin the distributed-computing work.</p>
+    <div class="grid3">
+      <div class="card">
+        <h3>AI &amp; ML for health</h3>
+        <p>Recommender systems and LLM agents for PKU dietary management, LLM-based analysis of dementia-related
+        behavior, speech biomarkers of cognitive decline, and RAG systems for public-health questions. My focus is
+        safety constraints and measurable reliability.</p>
+      </div>
+      <div class="card">
+        <h3>Privacy &amp; distributed computing</h3>
+        <p>Coded computation against stragglers, private and secure distributed matrix multiplication, private
+        information retrieval, and differential-privacy leakage in adaptive systems, analyzed with information theory.</p>
+      </div>
+      <div class="card">
+        <h3>Coding theory &amp; algebra</h3>
+        <p>Decoding lattices with Gröbner bases, label codes of lattices, algebraic decoding of q-ary codes, and
+        Nullstellensatz certificates and code selection for LDPC codes in wireless links.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="projects">
+  <div class="wrap">
+    <h2>Featured Projects</h2>
+    <p class="sub">Each project is described from a research angle and from a product angle.</p>
+
+    <article class="card project">
+      <div class="head">
+        <h3>AI for Phenylketonuria (PKU)</h3>
+        <span class="badge">Project lead</span>
+      </div>
+      <div class="meta">Kean University · 2023 – present · Recommender systems, LLM agents, mobile apps</div>
+      <p>
+        People with PKU have to keep phenylalanine (PHE) intake within narrow, age-dependent limits for life,
+        and today that means doing a lot of calculation by hand. Since 2023 I have led a multi-year program
+        that turns clinical nutrition guidelines into safe, personalized AI tools, from a published recommender
+        system to <strong>PKU Wise</strong>, a working mobile-app prototype built by student developers under
+        my mentorship.
+      </p>
+      <div class="stats">
+        <div class="stat"><b>HealthCom 2024</b><span>hybrid PKU food recommender (IEEE)</span></div>
+        <div class="stat"><b>JMIR (review)</b><span>safety-constrained hybrid recommender</span></div>
+        <div class="stat"><b>60 scenarios</b><span>evaluation benchmark across 5 age groups</span></div>
+        <div class="stat"><b>10 posters</b><span>PKU research presentations, 2023–2025</span></div>
+      </div>
+      <div class="two-lens">
+        <div class="lens">
+          <h4>Research contribution</h4>
+          <ul>
+            <li>Collaborative and content-based filtering for PKU-safe food recommendation (IEEE HealthCom 2024).</li>
+            <li>A safety-constrained hybrid recommender that combines cuisine-aware filtering with <strong>clinical-rule enforcement</strong> (under review, JMIR Formative Research).</li>
+            <li>A 60-scenario benchmark (newborns to adults, 5 age groups) comparing reference values from a deterministic rule-based calculator with GPT-4o outputs for milk volume, formula powder, protein and calorie targets.</li>
+          </ul>
+        </div>
+        <div class="lens">
+          <h4>Product &amp; engineering (student team)</h4>
+          <ul>
+            <li><strong>PKU Wise</strong>: a cross-platform app with barcode scanning (Open Food Facts lookup), a PHE meal calculator and an infant-care calculator (energy, protein and PHE targets), intake logging, PDF reports, and an AI recipe generator.</li>
+            <li>A research-prototype chat assistant that combines deterministic PHE, protein and energy calculations, including milk-volume and formula-mixing guidance, with embedding search (RAG) over a food database.</li>
+            <li>Prototypes on other channels: a Telegram PKU Food Checker and an n8n-based assistant.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="stack">
+        <span>Recommender systems</span><span>LLMs (GPT-4o)</span><span>RAG &amp; pgvector</span>
+        <span>Flutter</span><span>Supabase / PostgreSQL</span><span>Barcode scanning</span><span>n8n</span><span>Python</span>
+      </div>
+      <p class="meta" style="margin-top:14px">
+        Grant proposals (pending): NPKUA <em>PRECISE</em> (resubmitted June 2025); Caplan Foundation, $50,000 requested
+        (submitted January 2026). Pitched as <em>AI for PKU</em> at Kean Shark Tank 2024.
+      </p>
+    </article>
+
+    <article class="card project">
+      <div class="head">
+        <h3>Dementia &amp; cognitive health</h3>
+        <span class="badge">Collaborative research</span>
+      </div>
+      <div class="meta">Interdisciplinary collaboration · 2025 – present · Speech biomarkers, LLMs</div>
+      <p>
+        Early signs of cognitive decline often show up in how people speak and behave, well before a diagnosis.
+        This work reviews how speech signals are measured across languages and uses LLMs to help caregivers
+        understand and respond to behavior.
+      </p>
+      <div class="two-lens">
+        <div class="lens">
+          <h4>Research contribution</h4>
+          <ul>
+            <li>A structured review of <strong>speech biomarkers</strong> for cognitive decline in aging, MCI and dementia across languages (Living Adaptations, Antwerp, 2026).</li>
+            <li>Automated dementia behavior analysis and <strong>empathetic mapping with LLMs</strong> (Kean Research Day 2025).</li>
+          </ul>
+        </div>
+        <div class="lens">
+          <h4>Why it matters</h4>
+          <ul>
+            <li>Toward low-cost, language-aware screening tools and better support for caregivers.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="stack"><span>Speech biomarkers</span><span>LLMs</span><span>Structured review</span></div>
+    </article>
+
+    <div class="grid2">
+      <article class="card">
+        <div class="kicker">LLMs · Evaluation</div>
+        <h3>Public-health RAG reliability</h3>
+        <p>How sensitive are citizen-facing public-health chatbots to the way a question is phrased? A comparison of
+        five retrievers plus an end-to-end RAG study. <span class="venue">Under review, Discover Artificial Intelligence, 2026.</span></p>
+      </article>
+      <article class="card">
+        <div class="kicker">Distributed systems · Privacy</div>
+        <h3>Coded distributed computation: stragglers and privacy</h3>
+        <p>Coding schemes that let cloud workers compute quickly despite stragglers
+        <span class="venue">(IEEE TCOM 2019; ISIT 2018)</span> and multiply matrices without learning the data
+        <span class="venue">(IEEE TIFS 2020; ISIT 2019; IEEE Access 2026)</span>.</p>
+      </article>
+      <article class="card">
+        <div class="kicker">Deep learning · Finance</div>
+        <h3>Hybrid deep learning for stock prediction</h3>
+        <p>Combining LSTM, Transformer attention, federated learning and sentiment analysis to forecast markets.
+        <span class="venue">IEEE Access, 2026.</span></p>
+      </article>
+      <article class="card">
+        <div class="kicker">Generative AI · Education</div>
+        <h3>GenAI for inventory decisions</h3>
+        <p>Reworking the classic newsvendor game with generative AI to teach decision-making under uncertainty.
+        <span class="venue">Submitted, Decision Sciences Journal of Innovative Education, 2026.</span></p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section id="experience">
+  <div class="wrap">
+    <h2>Experience</h2>
+    <h3 class="group">Appointments</h3>
+    <div class="timeline">
+      <div class="item"><div class="when">2023 – present</div><div><h4>Assistant Professor</h4><div class="meta">Department of Mathematical Sciences, Kean University, Union, NJ</div></div></div>
+      <div class="item"><div class="when">2021 – 2023</div><div><h4>Postdoctoral Researcher</h4><div class="meta">School of Integrative Science and Technology, Kean University</div></div></div>
+      <div class="item"><div class="when">2020 – 2021</div><div><h4>Adjunct Professor</h4><div class="meta">School of Integrative Science and Technology, Kean University</div></div></div>
+      <div class="item"><div class="when">Jan – Jul 2014</div><div><h4>Visiting Researcher</h4><div class="meta">Carleton University, Ottawa, Canada (NSERC-supported)</div></div></div>
+      <div class="item"><div class="when">2013 – 2016</div><div><h4>Assistant Professor</h4><div class="meta">Islamic Azad University, Roudehen Branch, Tehran, Iran</div></div></div>
+    </div>
+
+    <h3 class="group">Education</h3>
+    <div class="timeline">
+      <div class="item"><div class="when">2016 – 2020</div><div><h4>Ph.D., Electrical Engineering</h4><div class="meta">New Jersey Institute of Technology (NJIT) · GPA 4.0/4.0 · Dissertation: <em>Coding Against Stragglers in Distributed Computation Scenarios</em></div></div></div>
+      <div class="item"><div class="when">2010 – 2014</div><div><h4>Ph.D., Pure Mathematics</h4><div class="meta">Amirkabir University of Technology, Iran · GPA 4.0/4.0 · Dissertation: <em>Decoding Lattices via Gröbner Bases</em></div></div></div>
+      <div class="item"><div class="when">2006 – 2008</div><div><h4>M.Sc., Pure Mathematics</h4><div class="meta">Amirkabir University of Technology, Iran · GPA 4.0/4.0 · Thesis: <em>Persistent Homology and Localized Homology</em></div></div></div>
+      <div class="item"><div class="when">2002 – 2006</div><div><h4>B.Sc., Pure Mathematics</h4><div class="meta">Amirkabir University of Technology, Iran · GPA 3.8/4.0</div></div></div>
+    </div>
+
+    <h3 class="group">Awards &amp; fellowships</h3>
+    <div class="card">
+      <ul class="tight">
+        <li>IST Fellowship, Kean University, $10,000 each (2023 and 2025)</li>
+        <li>June Activities Award, Kean University, $2,000 (2026); Graduate Research Assistantship support, Kean University (2026)</li>
+        <li>Nominee, Faculty Research Mentor of the Year Award (Early Career Faculty), Kean University (2024)</li>
+        <li>Participant, Kean University Shark Tank: <em>AI for PKU</em> (2024) and <em>Smart Mind Care</em> (2025)</li>
+        <li>Research Assistantship Awards, NJIT, $117,000 (2016 – 2019), plus Summer Research Assistantship Awards, $5,000 each (2018, 2019)</li>
+        <li>NSERC grant support, Carleton University, $12,000 (2014)</li>
+        <li>Sabbatical Award, Amirkabir University of Technology, $10,000 (2013)</li>
+        <li>Travel awards: NJIT (2017); CIE45, Islamic Azad University (2015)</li>
+      </ul>
+    </div>
+
+    <h3 class="group">Grant proposals (submitted)</h3>
+    <div class="card">
+      <ul class="tight">
+        <li><strong>Caplan Foundation for Early Childhood</strong>: <em>Advancing Early Childhood PKU Care Through Parenting Education and AI</em>, with Y. Nejatbakhsh and R. Singh; $50,000 requested, submitted January 2026.</li>
+        <li><strong>NPKUA</strong>: <em>PRECISE: Personalized AI Recommendations for Empowering Care in Supporting Everyday Life Diet and Behavior in Adults with PKU</em>, with Y. Nejatbakhsh and R. Singh; submitted June 2024, resubmitted June 2025.</li>
+        <li>Consultant, NSF proposal <em>Length Scale Dependence of Extracellular Matrix Alignment in Tumor Growth and Invasion</em> (PI: Amir K. Miri, NJIT); $600,000 requested, submitted 2025.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="publications">
+  <div class="wrap">
+    <h2>Publications</h2>
+    <p class="sub"><span class="filter-note">Filter by topic. </span>Full list on <a href="https://scholar.google.com/citations?user=zkuUq5kAAAAJ">Google Scholar</a>.</p>
+    <div class="filters" role="group" aria-label="Filter publications by topic">
+      <button type="button" data-f="all" aria-pressed="true">All</button>
+      <button type="button" data-f="health" aria-pressed="false">AI &amp; Health</button>
+      <button type="button" data-f="ml" aria-pressed="false">Machine Learning</button>
+      <button type="button" data-f="privacy" aria-pressed="false">Privacy &amp; Distributed Computing</button>
+      <button type="button" data-f="coding" aria-pressed="false">Coding Theory &amp; Algebra</button>
+    </div>
+
+    <h3 class="group">Under review / submitted</h3>
+    <ol class="pubs">
+      <li data-t="health ml"><em>Query-Formulation Sensitivity in Citizen-Facing Public-Health RAG: A Five-Retriever Retrieval Comparison and a Single-Configuration End-to-End Study.</em> <strong>M. Aliasgari</strong>, Y. Nejatbakhsh, P. Safaee. <span class="venue">Under review, Discover Artificial Intelligence, 2026.</span></li>
+      <li data-t="health ml"><em>A Safety-Constrained Hybrid Food Recommender System for Phenylketonuria: Integrating Cuisine-Aware Filtering and Clinical Rule Enforcement.</em> <strong>M. Aliasgari</strong>, M. Ajetunmobi, Y. Nejatbakhsh, R. Nejatbakhsh. <span class="venue">Under review, JMIR Formative Research, 2026.</span></li>
+      <li data-t="ml"><em>Reimagining the Newsvendor Game: A Generative AI Approach to Inventory Decision.</em> S. Shokoohyar, <strong>M. Aliasgari</strong>, Y. Nejatbakhsh. <span class="venue">Submitted, Decision Sciences Journal of Innovative Education, 2026.</span></li>
+      <li data-t="privacy"><em>Functional Converses for Private Matrix-Product Retrieval under Library-Wide Decoder-Side Correlation.</em> <strong>M. Aliasgari</strong>, Y. Nejatbakhsh. <span class="venue">Submitted, IEEE Transactions on Information Theory, 2026.</span></li>
+      <li data-t="coding"><em>Encoding-Sensitive Nullstellensatz Certificates for Bounded-Support Syndrome Exclusion in LDPC Codes.</em> <strong>M. Aliasgari</strong>, H. Khodaiemehr, K. Bagheri. <span class="venue">Submitted, IEEE Information Theory Workshop (ITW) 2027.</span></li>
+      <li data-t="coding"><em>Low-Unsatisfaction Screening for QC-LDPC Code Selection in Wireless Links.</em> <strong>M. Aliasgari</strong>. <span class="venue">Under revision, IEEE Wireless Communications Letters, 2026.</span></li>
+    </ol>
+
+    <h3 class="group">Journal articles</h3>
+    <ol class="pubs">
+      <li data-t="privacy"><em>Routing Leakage in Adaptive Coded Distributed Matrix Multiplication: An Information-Theoretic Framework for Conditional Differential Privacy.</em> <strong>M. Aliasgari</strong>. <span class="venue">IEEE Access, vol. 14, pp. 100918–100934, 2026.</span></li>
+      <li data-t="ml"><em>Enhancing Stock Market Prediction with Hybrid Deep Learning: Integrating LSTM, Transformer Attention, Federated Learning, and Sentiment Analysis.</em> Y. Nejatbakhsh, <strong>M. Aliasgari</strong>. <span class="venue">IEEE Access, vol. 14, pp. 3926–3942, 2026 (published online Dec. 30, 2025). <a href="https://doi.org/10.1109/ACCESS.2025.3649668">doi:10.1109/ACCESS.2025.3649668</a></span></li>
+      <li data-t="coding"><em>Linear Label Code of a Root Lattice Using Gröbner Bases.</em> <strong>M. Aliasgari</strong>, D. Panario, M.-R. Sadeghi. <span class="venue">Applicable Algebra in Engineering, Communication and Computing, vol. 35, pp. 3–15, 2024.</span></li>
+      <li data-t="privacy"><em>Private and Secure Distributed Matrix Multiplication with Flexible Communication Load.</em> <strong>M. Aliasgari</strong>, O. Simeone, J. Kliewer. <span class="venue">IEEE Transactions on Information Forensics and Security, vol. 15, pp. 2722–2734, 2020.</span></li>
+      <li data-t="privacy"><em>Coded Computation Against Processing Delays for Virtualized Cloud-Based Channel Decoding.</em> <strong>M. Aliasgari</strong>, J. Kliewer, O. Simeone. <span class="venue">IEEE Transactions on Communications, vol. 67, pp. 28–38, 2019.</span></li>
+      <li data-t="coding"><em>An Algebraic Method for Decoding q-ary Codes via Submodules of ℤ<sup>n</sup>.</em> <strong>M. Aliasgari</strong>, M.-R. Sadeghi. <span class="venue">IEEE Communications Letters, vol. 18, no. 5, pp. 857–860, 2014.</span></li>
+      <li data-t="coding"><em>Gröbner Bases for Lattices and an Algebraic Decoding Algorithm.</em> <strong>M. Aliasgari</strong>, M.-R. Sadeghi, D. Panario. <span class="venue">IEEE Transactions on Communications, vol. 61, pp. 1222–1230, 2013.</span></li>
+    </ol>
+
+    <h3 class="group">Conference proceedings</h3>
+    <ol class="pubs">
+      <li data-t="health ml"><em>The Voice That Tells in Different Languages: A Structured Review of Speech Biomarkers for Cognitive Decline in Ageing, MCI, and Dementia.</em> P. Safaee, K. Humlen, <strong>M. Aliasgari</strong>, Y. Nejatbakhsh, M. Mohammadi, L. Beijer, M. Gholami, M. Noroozian. <span class="venue">Living Adaptations: Housing and Care Innovation, Antwerp, Belgium, 2026.</span></li>
+      <li data-t="health ml"><em>Recommending Healthy Food for Phenylketonuria with Collaborative and Content-Based Filtering.</em> <strong>M. Aliasgari</strong>, H. Li, Y. Zhang, Y. Nejatbakhsh, R. Nejatbakhsh. <span class="venue">IEEE HealthCom, pp. 546–552, Japan, 2024.</span></li>
+      <li data-t="privacy"><em>Distributed Coded Computation.</em> <strong>M. Aliasgari</strong>. <span class="venue">25th Conference on Applications of Computer Algebra (ACA), Turkey, 2022.</span></li>
+      <li data-t="coding"><em>Linear Label Code of a Lattice Using Gröbner Bases.</em> <strong>M. Aliasgari</strong>, D. Panario, M.-R. Sadeghi. <span class="venue">25th ACA, Turkey, 2022.</span></li>
+      <li data-t="privacy"><em>Distributed and Private Coded Matrix Computation with Flexible Communication Load.</em> <strong>M. Aliasgari</strong>, O. Simeone, J. Kliewer. <span class="venue">IEEE ISIT, pp. 1092–1096, Paris, 2019.</span></li>
+      <li data-t="privacy"><em>Coded Computation Against Straggling Decoders for Network Function Virtualization.</em> <strong>M. Aliasgari</strong>, J. Kliewer, O. Simeone. <span class="venue">IEEE ISIT, pp. 711–715, 2018.</span></li>
+      <li data-t="coding"><em>Johnson-Type Bound for Group Codes and Lattices.</em> <strong>M. Aliasgari</strong>, M.-R. Sadeghi, D. Panario. <span class="venue">ACA, 2015.</span></li>
+      <li data-t="coding"><em>Binomial Ideal Associated to a Lattice and Its Label Code.</em> <strong>M. Aliasgari</strong>, M.-R. Sadeghi, D. Panario. <span class="venue">ACA, 2015.</span></li>
+      <li data-t="other"><em>Minimizing Exceptional Elements and Voids in a Cell Formation Problem with Optimal Number of Cells.</em> <strong>M. Aliasgari</strong>, M. Kazemi, R. Kia, A. Ebrahimi. <span class="venue">CIE45, Metz, France, pp. 1286–1294, 2015.</span></li>
+      <li data-t="coding"><em>Gröbner Bases for Lattices and an Algebraic Decoding Algorithm.</em> <strong>M. Aliasgari</strong>, M.-R. Sadeghi, D. Panario. <span class="venue">49th Allerton Conference, pp. 1414–1415, 2011.</span></li>
+    </ol>
+
+    <div id="presentations">
+      <h3 class="group">Selected presentations</h3>
+      <ul class="tight">
+        <li>2025 · Kean, IST and IUSE Research Day posters: <em>PKU-Recipe AI</em>, <em>PKU Scanner AI</em>, <em>PKU Food Checker</em> (Telegram), <em>A PKU-Aware Hybrid Recommender System</em>, <em>LLM-Powered Personalized Dietary Agent for PKU</em>, <em>Automated Dementia Behavior Analysis and Empathetic Mapping Using LLMs</em>, <em>Virtual Avatar Development System</em>.</li>
+        <li>2023 · <em>The Power of Artificial Intelligence for Phenylketonuria</em>; <em>Stock Forecasting Using Advanced LSTM Models</em>; <em>Private Distributed Computation</em> (MAA New Jersey Section).</li>
+        <li>Earlier: IEEE ISIT (Paris), North-American School of Information Theory (Boston, Atlanta), Applications of Computer Algebra (Turkey), Groups, Group Rings, and Related Topics (UAE University), Iranian Mathematics Conferences, and graduate seminars at NJIT.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="teaching">
+  <div class="wrap">
+    <h2>Teaching &amp; Mentoring</h2>
+    <p class="sub">More than 15 years of teaching in the U.S. and Iran, from first-year mathematics to courses on large language models and deep learning.</p>
+    <div class="grid3">
+      <div class="card">
+        <h3>AI &amp; data science</h3>
+        <ul class="tight">
+          <li>Large Language Models (Kean, 2026)</li>
+          <li>Introduction to Deep Learning (Kean, 2025)</li>
+          <li>Detection &amp; Estimation Theory: Inference and ML for Engineers (Kean, 2025)</li>
+          <li>Deep Learning and Recommender Systems (Kean, 2024)</li>
+          <li>Special Topics: Machine Learning (Kean, 2022–23)</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Engineering &amp; mathematics</h3>
+        <ul class="tight">
+          <li>Information Theory and Coding (Kean, 2022)</li>
+          <li>Digital Communication Systems (NJIT, 2019)</li>
+          <li>Discrete Mathematics (Kean, 2024–25)</li>
+          <li>Precalculus and Calculus I (Kean, 2020–24 and Fall 2026); Mathematics/Computational Methods I &amp; II (Kean, 2020–24)</li>
+          <li>Ordinary Differential Equations, Calculus II, Engineering Mathematics, Statistics, Error Control Coding (Iran, 2009–2013)</li>
+          <li>Teaching assistant: Stochastic Signals and Systems; Communications Systems I (NJIT, 2017–2019)</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Research mentoring</h3>
+        <ul class="tight">
+          <li>Undergraduate researchers (2022 – present) and master's theses (2023 – present)</li>
+          <li>IUSE Scholars Academy (2024 – 2026)</li>
+          <li>UR2PhD program (2025, 2026)</li>
+          <li>GSSRP high-school summer research (2025, 2026)</li>
+          <li>Graduate research assistants (2026)</li>
+        </ul>
+      </div>
+    </div>
+
+    <h3 class="group">Service</h3>
+    <div class="grid2">
+      <div class="card">
+        <ul class="tight">
+          <li>Computational Science Ph.D. Curriculum Committee, Kean (2024 – present)</li>
+          <li>Research Committee, Wenzhou-Kean University (2023 – present)</li>
+          <li>Editorial Board, <em>Mathematics and Computer Science</em> (2025 – present)</li>
+          <li>Editorial Board, <em>Electrical Engineering and Computer Science</em> (2019 – present)</li>
+          <li>Judge, BRHS Hackathon (2023) · Member, IEEE and IEEE Information Theory Society</li>
+        </ul>
+      </div>
+      <div class="card">
+        <p><strong>Reviewer for</strong> <em>IEEE Transactions on Neural Networks and Learning Systems</em>; <em>IEEE Transactions on Information Theory</em>;
+        <em>IEEE Transactions on Information Forensics and Security</em>; <em>IEEE Transactions on Communications</em>;
+        <em>IEEE Journal on Selected Areas in Information Theory</em>; <em>IEEE Access</em>; <em>Designs, Codes and Cryptography</em>;
+        <em>Journal of Economic and Social Measurement</em>; IEEE ISIT; IEEE SPAWC; IEEE WCNC; CECNet; ISCISC.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="skills">
+  <div class="wrap">
+    <h2>Skills</h2>
+    <div class="grid3" style="margin-top:24px">
+      <div class="card"><h3>AI &amp; machine learning</h3>
+        <ul class="tight"><li>Recommender systems (collaborative, content-based, hybrid)</li><li>LLMs, agents and retrieval-augmented generation</li><li>Deep learning: LSTM, Transformers, federated learning</li><li>Benchmark and evaluation design</li></ul></div>
+      <div class="card"><h3>Mathematics &amp; theory</h3>
+        <ul class="tight"><li>Information theory, privacy, coding theory</li><li>Probability, estimation and inference</li><li>Computational algebra: Gröbner bases, lattices</li></ul></div>
+      <div class="card"><h3>Tools</h3>
+        <ul class="tight"><li>Python, MATLAB</li><li>CoCoA, Magma, Mathematica, Maple, Vensim</li><li>LaTeX, Inkscape</li><li>My teams build with Flutter, Supabase, n8n and OpenAI APIs</li></ul></div>
+    </div>
+    <p class="meta" style="margin-top:20px">Languages: English, Persian, Azerbaijani, Spanish.</p>
+  </div>
+</section>
+
+<section class="contact" id="contact">
+  <div class="wrap">
+    <h2>Let's talk</h2>
+    <p>I'm open to faculty, research-scientist and applied ML / health-tech roles, and to research collaborations on trustworthy AI for health.</p>
+    <div class="cta" style="justify-content:center">
+      <a class="btn primary" href="mailto:maliasga@kean.edu">maliasga@kean.edu</a>
+      <a class="btn" href="https://scholar.google.com/citations?user=zkuUq5kAAAAJ">Google Scholar</a>
+      <a class="btn" href="https://www.linkedin.com/in/malihe-aliasgari-ph-d-02a73579/">LinkedIn</a>
+      <a class="btn" href="cv.pdf" download="Malihe-Aliasgari-CV.pdf">CV (PDF)</a>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer><div class="wrap">© <span id="yr">2026</span> Malihe Aliasgari · Union, New Jersey</div></footer>
+
+<script>
+document.getElementById('yr').textContent = new Date().getFullYear();
+
+(function(){
+  var root = document.documentElement, btn = document.getElementById('themeBtn');
+  function isDark(){
+    return root.dataset.theme ? root.dataset.theme === 'dark'
+      : matchMedia('(prefers-color-scheme: dark)').matches;
+  }
+  function sync(){ btn.setAttribute('aria-pressed', String(isDark())); }
+  try { var saved = localStorage.getItem('theme'); if (saved) root.dataset.theme = saved; } catch(e){}
+  sync();
+  btn.addEventListener('click', function(){
+    root.dataset.theme = isDark() ? 'light' : 'dark';
+    try { localStorage.setItem('theme', root.dataset.theme); } catch(e){}
+    sync();
+  });
+})();
+
+(function(){
+  var buttons = document.querySelectorAll('.filters button');
+  var items = document.querySelectorAll('#publications ol.pubs li');
+  var presentations = document.getElementById('presentations');
+  buttons.forEach(function(b){
+    b.addEventListener('click', function(){
+      var f = b.dataset.f;
+      buttons.forEach(function(x){ x.setAttribute('aria-pressed', x === b ? 'true' : 'false'); });
+      items.forEach(function(li){
+        li.hidden = f !== 'all' && li.dataset.t.split(' ').indexOf(f) === -1;
+      });
+      document.querySelectorAll('#publications ol.pubs').forEach(function(ol){
+        var any = Array.prototype.some.call(ol.children, function(li){ return !li.hidden; });
+        ol.hidden = !any;
+        ol.previousElementSibling.hidden = !any;
+      });
+      presentations.hidden = f !== 'all';
+    });
+  });
+})();
+</script>
+</body>
+</html>
